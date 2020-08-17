@@ -16,3 +16,5 @@ endif
 
 highlight Normal ctermbg=none
 "highlight NonText ctermbg=none
+
+let g:coc_enabled=0
