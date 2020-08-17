@@ -30,16 +30,20 @@ background_opacity: 0.8
 
 font:
   normal:
-    family: "monospace"
+    family: "Menlo"
+    #family: "monospace"
     style: Regular
   bold:
-    family: "monospace"
+    family: "Menlo"
+    #family: "monospace"
     style: Bold
   italic:
-    family: "monospace"
+    family: "Menlo"
+    #family: "monospace"
     style: Italic
   bold_italic:
-    family: "monospace"
+    family: "Menlo"
+    #family: "monospace"
     style: Bold Italic
 
   # Point size

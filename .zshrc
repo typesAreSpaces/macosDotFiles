@@ -4,6 +4,7 @@ plugins=(git)
 
 export PATH="/usr/local/bin:"$PATH
 export PATH="$HOME/.local/bin:"$PATH
+export PATH="$HOME/.cargo/bin:"$PATH
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
