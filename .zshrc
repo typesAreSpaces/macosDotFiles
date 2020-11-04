@@ -20,3 +20,6 @@ fi
 alias v="vim"
 alias nv="nvim"
 alias config='/usr/bin/git --git-dir=/Users/jose/.cfg/ --work-tree=/Users/jose'
+
+updateBrewPackages(){ brew bundle dump }
+installBrewPackages() { brew bundle }
