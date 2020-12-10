@@ -19,7 +19,7 @@ fi
 # program aliases
 alias v="vim"
 alias nv="nvim"
-alias config='/usr/bin/git --git-dir=/Users/jose/.cfg/ --work-tree=/Users/jose'
+alias config='/usr/bin/git --git-dir=/Users/types/.cfg/ --work-tree=/Users/types'
 
 updateBrewPackages(){ brew bundle dump }
 installBrewPackages() { brew bundle }
