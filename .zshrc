@@ -5,16 +5,17 @@ plugins=(git)
 export PATH="/usr/local/bin:"$PATH
 export PATH="$HOME/.local/bin:"$PATH
 export PATH="$HOME/.cargo/bin:"$PATH
+export PATH="$HOME/Documents/GithubProjects/limelight/bin:$PATH"
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
 #[[ $TERM != "screen" ]] && exec tmux
-if which tmux 2>&1 >/dev/null; then
-  if [ $TERM != "screen-256color" ] && [ $TERM != "screen" ]; then
-    tmux attach -t hack || tmux new -s hack; exit
-  fi
-fi
+#if which tmux 2>&1 >/dev/null; then
+  #if [ $TERM != "screen-256color" ] && [ $TERM != "screen" ]; then
+    #tmux attach -t hack || tmux new -s hack; exit
+  #fi
+#fi
 
 # program aliases
 alias v="vim"
