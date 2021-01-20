@@ -2,10 +2,11 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="simple"
 plugins=(git)
 
-export PATH="/usr/local/bin:"$PATH
-export PATH="$HOME/.local/bin:"$PATH
-export PATH="$HOME/.cargo/bin:"$PATH
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/Documents/GithubProjects/limelight/bin:$PATH"
+export GITHUB_PROJECTS_DIR="$HOME/Documents/GithubProjects"
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
@@ -22,5 +23,7 @@ alias v="vim"
 alias nv="nvim"
 alias config='/usr/bin/git --git-dir=/Users/types/.cfg/ --work-tree=/Users/types'
 
+alias math_logic="cd $GITHUB_PROJECTS_DIR/phd-thesis/Documents/Courses/Math\ 439"
+ 
 updateBrewPackages(){ brew bundle dump }
 installBrewPackages() { brew bundle }
