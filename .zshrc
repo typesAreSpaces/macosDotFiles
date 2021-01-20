@@ -24,6 +24,7 @@ alias nv="nvim"
 alias config='/usr/bin/git --git-dir=/Users/types/.cfg/ --work-tree=/Users/types'
 
 alias math_logic="cd $GITHUB_PROJECTS_DIR/phd-thesis/Documents/Courses/Math\ 439"
+alias math_logic_hw="cd $GITHUB_PROJECTS_DIR/phd-thesis/Documents/Courses/Math\ 439/Homework"
  
 updateBrewPackages(){ brew bundle dump }
 installBrewPackages() { brew bundle }
