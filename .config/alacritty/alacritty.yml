@@ -2,6 +2,10 @@ colors:
   primary:
     background: '#1d1f21'
     foreground: '#c5c8c6'
+    dim_foreground: '#dbdbdb'
+    bright_foreground: '#d9d9d9'
+    dim_background: '#202020'
+    bright_background: '#3a3a3a'
   normal:
     black: '#1d1f21'
     red: '#cc6666'
@@ -24,31 +28,31 @@ colors:
     text: '#1d1f21'
     cursor: '#ffffff'
   selection:
-    text: '0xf8f8f2'
-    background: '0x44475a'
+    text: CellForeground
+    background: '#3e4451'
   dim:
-    black: '0x14151b'
-    red: '0xff2222'
-    green: '0x1ef956'
-    yellow: '0xebf85b'
-    blue: '0x4d5b86'
-    magenta: '0xff46b0'
-    cyan: '0x59dffc'
-    white: '0xe6e6d1'
+    black: '#232323'
+    red: '#74423f'
+    green: '#5e6547'
+    yellow: '#8b7653'
+    blue: '#556b79'
+    magenta: '#6e4962'
+    cyan: '#5c8482'
+    white: '#828282'
   indexed_colors: []
 background_opacity: 0.8
 font:
   normal:
-    family: Menlo
+    family: InputMono
     style: Regular
   bold:
-    family: Menlo
+    family: InputMono
     style: Bold
   italic:
-    family: Menlo
+    family: InputMono
     style: Italic
   bold_italic:
-    family: Menlo
+    family: InputMono
     style: Bold Italic
   size: 14
   offset:
