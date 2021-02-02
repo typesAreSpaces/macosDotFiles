@@ -1,20 +1,20 @@
 colors:
   primary:
-    background: '#282c34'
-    foreground: '#abb2bf'
+    background: '#2E3440'
+    foreground: '#D8DEE9'
     dim_foreground: '#dbdbdb'
     bright_foreground: '#d9d9d9'
     dim_background: '#202020'
     bright_background: '#3a3a3a'
   normal:
-    black: '#5c6370'
-    red: '#e06c75'
-    green: '#98c379'
-    yellow: '#e5c07b'
-    blue: '#61afef'
-    magenta: '#c678dd'
-    cyan: '#56b6c2'
-    white: '#828997'
+    black: '#3B4252'
+    red: '#BF616A'
+    green: '#A3BE8C'
+    yellow: '#EBCB8B'
+    blue: '#81A1C1'
+    magenta: '#B48EAD'
+    cyan: '#88C0D0'
+    white: '#E5E9F0'
   bright:
     black: '#4C566A'
     red: '#BF616A'
@@ -25,8 +25,8 @@ colors:
     cyan: '#8FBCBB'
     white: '#ECEFF4'
   cursor:
-    text: CellBackground
-    cursor: '#528bff'
+    text: '#1d1f21'
+    cursor: '#ffffff'
   selection:
     text: CellForeground
     background: '#3e4451'
@@ -65,6 +65,7 @@ window:
   padding:
     x: 10
     'y': 10
+  decorations: none
 scrolling:
   history: 10000
   multiplier: 10

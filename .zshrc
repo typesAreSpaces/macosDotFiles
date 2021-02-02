@@ -18,6 +18,7 @@ export GITHUB_PROJECTS_DIR="$HOME/Documents/GithubProjects"
   #fi
 #fi
 
+
 # program aliases
 alias v="vim"
 alias nv="nvim"
@@ -28,3 +29,5 @@ alias math_logic_hw="cd $GITHUB_PROJECTS_DIR/phd-thesis/Documents/Courses/Math\ 
  
 updateBrewPackages(){ brew bundle dump }
 installBrewPackages() { brew bundle }
+pwdclip(){ pwd | awk '{gsub( " ","\\ " ); print}' | xclip -selection c }
+cdclip(){ $(xclip -o) }
