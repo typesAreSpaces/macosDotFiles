@@ -43,16 +43,16 @@ colors:
 background_opacity: 0.8
 font:
   normal:
-    family: InputMono
+    family: Menlo
     style: Regular
   bold:
-    family: InputMono
+    family: Menlo
     style: Bold
   italic:
-    family: InputMono
+    family: Menlo
     style: Italic
   bold_italic:
-    family: InputMono
+    family: Menlo
     style: Bold Italic
   size: 14
   offset:
@@ -74,43 +74,43 @@ selection:
   semantic_escape_chars: ',│`|:"'' ()[]{}<>'
   save_to_clipboard: true
 live_config_reload: true
-key_bindings:
-  - key: V
-    mods: Control|Shift
-    action: Paste
-  - key: C
-    mods: Control|Shift
-    action: Copy
-  - key: Key0
-    mods: Control
-    action: ResetFontSize
-  - key: Equals
-    mods: Control
-    action: IncreaseFontSize
-  - key: Add
-    mods: Control
-    action: IncreaseFontSize
-  - key: Subtract
-    mods: Control
-    action: DecreaseFontSize
-  - key: Minus
-    mods: Control
-    action: DecreaseFontSize
-  - key: PageUp
-    mods: Shift
-    action: ScrollPageUp
-  - key: PageDown
-    mods: Shift
-    action: ScrollPageDown
-  - key: End
-    mods: Shift
-    action: ScrollToBottom
-  - key: Home
-    mods: Shift
-    action: ScrollToTop
-  - key: Up
-    mods: Shift
-    action: ScrollLineUp
-  - key: Down
-    mods: Shift
-    action: ScrollLineDown
+#key_bindings:
+  #- key: V
+    #mods: Control|Shift
+    #action: Paste
+  #- key: C
+    #mods: Control|Shift
+    #action: Copy
+  #- key: Key0
+    #mods: Control
+    #action: ResetFontSize
+  #- key: Equals
+    #mods: Control
+    #action: IncreaseFontSize
+  #- key: Add
+    #mods: Control
+    #action: IncreaseFontSize
+  #- key: Subtract
+    #mods: Control
+    #action: DecreaseFontSize
+  #- key: Minus
+    #mods: Control
+    #action: DecreaseFontSize
+  #- key: PageUp
+    #mods: Shift
+    #action: ScrollPageUp
+  #- key: PageDown
+    #mods: Shift
+    #action: ScrollPageDown
+  #- key: End
+    #mods: Shift
+    #action: ScrollToBottom
+  #- key: Home
+    #mods: Shift
+    #action: ScrollToTop
+  #- key: Up
+    #mods: Shift
+    #action: ScrollLineUp
+  #- key: Down
+    #mods: Shift
+    #action: ScrollLineDown
