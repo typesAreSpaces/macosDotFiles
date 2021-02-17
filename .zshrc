@@ -5,7 +5,6 @@ plugins=(git)
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/Documents/GithubProjects/limelight/bin:$PATH"
 export GITHUB_PROJECTS_DIR="$HOME/Documents/GithubProjects"
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
