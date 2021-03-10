@@ -6,6 +6,7 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export GITHUB_PROJECTS_DIR="$HOME/Documents/GithubProjects"
+#export DYLD_LIBRARY_PATH="$HOME/AXDInterpolator/lib"
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
