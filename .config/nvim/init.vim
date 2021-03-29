@@ -2,7 +2,7 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 
-color dracula
+color tokyonight
 
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -16,5 +16,3 @@ endif
 
 highlight Normal ctermbg=none
 "highlight NonText ctermbg=none
-
-let g:coc_enabled=0
