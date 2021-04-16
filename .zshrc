@@ -2,6 +2,9 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="simple"
 plugins=(git)
 
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
 export APPS_DIR="$HOME/Documents/Apps"
 export GITHUB_PROJECTS_DIR="$HOME/Documents/GithubProjects"
 export BOSQUE_DIR="$GITHUB_PROJECTS_DIR/BosqueLanguage"

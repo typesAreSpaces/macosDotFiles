@@ -105,3 +105,8 @@ let g:ycm_server_log_level = 'debug'
 
 autocmd BufNew,BufEnter * execute "silent! CocDisable"
 autocmd BufLeave * execute "silent! CocDisable"
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
