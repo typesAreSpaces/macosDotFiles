@@ -5,6 +5,11 @@ plugins=(git)
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+#LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+
 export APPS_DIR="$HOME/Documents/Apps"
 export GITHUB_PROJECTS_DIR="$HOME/Documents/GithubProjects"
 export BOSQUE_DIR="$GITHUB_PROJECTS_DIR/BosqueLanguage"
@@ -31,30 +36,20 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 # General Aliases
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias git_discard_dhanges="git stash save --keep-index --include-untracked"
 alias sshVB="ssh -p 2222 jose@127.0.0.1"
-alias find_cpp_etags="find . -type f -iname \"*.[chS]p*\" | xargs etags -a"
 
 # Directory Aliases
-alias master_thesis="cd $MASTER_THESIS_DIR/Software/Cpp/EUFInterpolant"
-alias master_thesis_paper="cd $MASTER_THESIS_DIR/Write\ Ups/thesis"
-alias thesis="cd $PHD_THESIS_DIR/Documents/Write\ Ups/thesis"
+alias thesis="cd $PHD_THESIS_DIR/Documents/Write-Ups/thesis"
 alias papers_for_thesis="cd $PHD_THESIS_DIR/Documents/Papers"
-alias reports="cd $PHD_THESIS_DIR/Documents/Write\ Ups/weekly_reports"
-alias math_logic="cd $PHD_THESIS_DIR/Courses/Math\ 439"
-
-alias bosque_paper="cd $BOSQUE_DIR/Technical\ Reports/Automatic\ verification\ for\ the\ Bosque\ Programming\ Language"
-
-alias prof_kapur="cd $GITHUB_PROJECTS_DIR/Extended-Groebner-Basis"
-alias basis_conversion="cd $GITHUB_PROJECTS_DIR/Basis-Conversion"
+alias reports="cd $PHD_THESIS_DIR/Documents/Write-Ups/weekly_reports/Fall-2021"
 
 # Program Aliases
-alias emacs="emacs -nw"
-alias emacs26="emacs26 -nw"
 alias ocaml="rlwrap ocaml"
 alias wolfram="rlwrap wolfram"
 alias v="vim"
-alias nv="nvim"
+alias nv="nvim --listen localhost:12345"
+alias nvs="nvim --listen localhost:12345 -S session"
+alias z="zathura"
 alias smtinterpol="java -jar $APPS_DIR/smtinterpol-2.5-663-gf15aa217.jar"
 
 # Docker Aliases
