@@ -1,32 +1,32 @@
 "# Plugins
 call plug#begin('~/.vim/plugged')
 "IDE Experience
-Plug 'mhinz/vim-startify'
-Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'rhysd/vim-grammarous'
-Plug 'iamcco/markdown-preview.nvim'
-Plug 'preservim/nerdtree'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'preservim/nerdcommenter'
-Plug 'godlygeek/tabular'
-Plug 'puremourning/vimspector'
-Plug 'szw/vim-maximizer'
+"Plug 'mhinz/vim-startify'
+"Plug 'mbbill/undotree'
+"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"Plug 'rhysd/vim-grammarous'
+"Plug 'iamcco/markdown-preview.nvim'
+"Plug 'preservim/nerdtree'
+"Plug 'jeffkreeftmeijer/vim-numbertoggle'
+"Plug 'preservim/nerdcommenter'
+"Plug 'godlygeek/tabular'
+"Plug 'puremourning/vimspector'
+"Plug 'szw/vim-maximizer'
 
-"## Themes
-Plug 'chriskempson/base16-vim'
-Plug 'morhetz/gruvbox'
-Plug 'ghifarit53/tokyonight-vim'
-Plug 'arcticicestudio/nord-vim'
-Plug 'b4skyx/serenade'
-Plug 'dracula/vim' 
+""## Themes
+"Plug 'chriskempson/base16-vim'
+"Plug 'morhetz/gruvbox'
+"Plug 'ghifarit53/tokyonight-vim'
+"Plug 'arcticicestudio/nord-vim'
+"Plug 'b4skyx/serenade'
+"Plug 'dracula/vim' 
 
-"## Ricing
-Plug 'itchyny/lightline.vim'
+""## Ricing
+"Plug 'itchyny/lightline.vim'
 
-"## Syntax
-Plug 'bohlender/vim-smt2' 
-Plug 'plasticboy/vim-markdown'
+""## Syntax
+"Plug 'bohlender/vim-smt2' 
+"Plug 'plasticboy/vim-markdown'
 call plug#end()
 
 "# Vim settings
@@ -82,7 +82,7 @@ let base16colorspace=256
 set background=dark
 
 "colorscheme dracula
-colorscheme serenade
+"colorscheme serenade
 
 syntax on
 set timeoutlen=1000 ttimeoutlen=0

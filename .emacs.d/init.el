@@ -15,7 +15,7 @@
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
                    (float-time
-                     (time-subtract after-init-time before-init-time)))
+                    (time-subtract after-init-time before-init-time)))
            gcs-done))
 
 (add-hook 'emacs-startup-hook #'efs/display-startup-time)
@@ -31,7 +31,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-  ;; Initialize use-package on non-Linux platforms
+;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
@@ -49,7 +49,7 @@
 
 ;; NOTE: If you want to move everything out of the ~/.emacs.d folder
 ;; reliably, set `user-emacs-directory` before loading no-littering!
-;(setq user-emacs-directory "~/.cache/emacs")
+                                        ;(setq user-emacs-directory "~/.cache/emacs")
 
 (use-package no-littering)
 
@@ -60,8 +60,10 @@
 
 (setq inhibit-startup-message t)
 
+;;(scroll-bar-mode -1)        ; Disable visible scrollbar
 (tool-bar-mode -1)          ; Disable the toolbar
 (tooltip-mode -1)           ; Disable tooltips
+;;(set-fringe-mode 10)        ; Give some breathing room
 
 (menu-bar-mode -1)            ; Disable the menu bar
 
@@ -86,14 +88,14 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package dashboard
-    :ensure t
-    :diminish dashboard-mode
-    :config
-    (setq dashboard-banner-logo-title "Welcome to Emacs!")
-    (setq dashboard-startup-banner "~/Pictures/Wallpapers/figures/480px-EmacsIcon.svg.png")
-    (setq dashboard-items '((recents  . 10)
-                            (bookmarks . 10)))
-    (dashboard-setup-startup-hook))
+  :ensure t
+  :diminish dashboard-mode
+  :config
+  (setq dashboard-banner-logo-title "Welcome to Emacs!")
+  (setq dashboard-startup-banner "~/Pictures/Wallpapers/figures/480px-EmacsIcon.svg.png")
+  (setq dashboard-items '((recents  . 10)
+                          (bookmarks . 10)))
+  (dashboard-setup-startup-hook))
 
 (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
 
@@ -105,6 +107,8 @@
 
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(global-set-key (kbd "C-i") 'evil-jump-forward)
 
 (use-package general
   :after evil
@@ -146,7 +150,7 @@
   :commands command-log-mode)
 
 (use-package doom-themes
-  :init (load-theme 'doom-palenight t))
+  :init (load-theme 'doom-gruvbox t))
 
 (use-package all-the-icons)
 
@@ -615,6 +619,90 @@
 
   (eshell-git-prompt-use-theme 'powerline))
 
+(use-package mu4e
+  :ensure nil
+  ;; :load-path "/usr/share/emacs/site-lisp/mu4e/"
+  ;; :defer 20 ; Wait until 20 seconds after startup
+  :config
+
+  ;; This is set to 't' to avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+
+  (setq mu4e-update-interval 600)
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir "~/Mail")
+
+  (defun refile-func (msg)
+    (cond
+     ((mu4e-message-contact-field-matches msg :to "kapur@cs.unm.edu")
+      "/unm/Prof. Kapur")
+     ((mu4e-message-contact-field-matches msg :from "kapur@cs.unm.edu")
+      "/unm/Prof. Kapur")
+     ((mu4e-message-contact-field-matches msg :cc "kapur@cs.unm.edu")
+      "/unm/Prof. Kapur")
+     (t "/unm/Archive")))
+
+  (setq mu4e-contexts
+        (list
+         ;; School account
+         (make-mu4e-context
+          :name "School"
+          :match-func
+          (lambda (msg)
+            (when msg
+              (string-prefix-p "/unm" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address  . "jabelcastellanosjoo@unm.edu")
+                  (user-full-name     . "Jose Abel Castellanos Joo")
+                  (mu4e-drafts-folder . "/unm/Drafts")
+                  (mu4e-sent-folder   . "/unm/Sent")
+                  (mu4e-refile-folder . refile-func)
+                  (mu4e-trash-folder  . "/unm/Trash")
+                  (smtpmail-smtp-server . "smtp.office365.com")
+                  (smtpmail-smtp-service . 587)
+                  (smtpmail-stream-type . starttls)))
+         ;; School CS department account
+         (make-mu4e-context
+          :name "CS department"
+          :match-func
+          (lambda (msg)
+            (when msg
+              (string-prefix-p "/cs-unm" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address  . "jose.castellanosjoo@cs.unm.edu")
+                  (user-full-name     . "Jose Abel Castellanos Joo")
+                  (mu4e-drafts-folder . "/cs-unm/Drafts")
+                  ;;(mu4e-sent-folder   . "/cs-unm/Sent")
+                  (mu4e-refile-folder . "/cs-unm/Inbox")
+                  (mu4e-trash-folder  . "/cs-unm/Trash")
+                  (smtpmail-smtp-server . "snape.cs.unm.edu")
+                  (smtpmail-smtp-service . 587)
+                  (smtpmail-stream-type . starttls)))))
+
+  (setq mu4e-context-policy 'pick-first)
+
+  (setq mu4e-maildir-shortcuts
+        '(("/unm/Inbox" . ?i)
+          ("/unm/Sent"  . ?s)
+          ("/unm/Trash" . ?t)
+          ("/unm/Drafts". ?d)
+          ("/unm/Prof. Kapur". ?k)
+          ("/unm/You got a Package!". ?p)
+          ("/unm/Archive". ?a)
+          ("/cs-unm/Inbox". ?I)
+          ("/cs-unm/Trash". ?T)
+          ("/cs-unm/Drafts". ?D))))
+
+(setq message-send-mail-function 'smtpmail-send-it)
+(setq mu4e-headers-show-threads nil)
+(setq mu4e-attachment-dir  "~/Downloads")
+(setq mu4e-confirm-quit nil)
+(setq mu4e-headers-results-limit -1)
+(setq mu4e-compose-signature "Best,\nJose")
+(setq message-citation-line-format "On %d %b %Y at %R, %f wrote:\n")
+(setq message-citation-line-function 'message-insert-formatted-citation-line)
+
+(define-key global-map (kbd "C-c e")
+  (lambda () (interactive) (mu4e)))
+
 (use-package dired
   :ensure nil
   :commands (dired dired-jump)
@@ -654,3 +742,30 @@
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets)
+
+(use-package hide-mode-line)
+
+(defun efs/presentation-setup ()
+  (setq text-scale-mode-amount 3)
+  (hide-mode-line-mode 1)
+  (org-display-inline-images)
+  (text-scale-mode 1))
+
+(defun efs/presentation-end ()
+  (hide-mode-line-mode 0)
+  (text-scale-mode 0))
+
+(use-package org-tree-slide
+  :hook ((org-tree-slide-play . efs/presentation-setup)
+         (org-tree-slide-stop . efs/presentation-end))
+  :custom
+  (org-tree-slide-slide-in-effect t)
+  (org-tree-slide-activate-message "Presentation started!")
+  (org-tree-slide-deactivate-message "Presentation finished!")
+  (org-tree-slide-header t)
+  (org-tree-slide-breadcrumbs " // ")
+  (org-image-actual-width nil))
+
+(use-package simpleclip
+  :config
+  (simpleclip-mode 1))
