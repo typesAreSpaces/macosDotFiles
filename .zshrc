@@ -49,6 +49,18 @@ alias wolfram="rlwrap wolfram"
 alias v="vim"
 alias nv="nvim --listen localhost:12345"
 alias nvs="nvim --listen localhost:12345 -S session"
+alias t="tmux"
+alias te="tmux new-session -s work -d;\
+  tmux rename-window -t work:1 todo; \
+  tmux send-keys -t work:1 \
+  emacs\ -nw\ $TODOLIST_DIR/research_tasks.org C-m;\
+  tmux new-window -t work:2 -n report;\
+  tmux send-keys -t work:2 \
+  reports C-m; \
+  tmux a -t work"
+alias tksp="tmux kill-pane"
+alias tks="tmux kill-session"
+alias tksr="tmux kill-server"
 alias z="zathura"
 alias smtinterpol="java -jar $APPS_DIR/smtinterpol-2.5-663-gf15aa217.jar"
 
