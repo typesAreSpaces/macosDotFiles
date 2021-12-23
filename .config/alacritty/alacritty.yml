@@ -43,16 +43,16 @@ colors:
 background_opacity: 0.8
 font:
   normal:
-    family: Menlo
+    family: Hack
     style: Regular
   bold:
-    family: Menlo
+    family: Hack
     style: Bold
   italic:
-    family: Menlo
+    family: Hack
     style: Italic
   bold_italic:
-    family: Menlo
+    family: Hack
     style: Bold Italic
   size: 14
   offset:
