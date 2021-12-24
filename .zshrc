@@ -24,8 +24,14 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 
-[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+[ -f $ZSH/oh-my-zsh.sh ] && \
+  source $ZSH/oh-my-zsh.sh
+[ -f $HOME/.fzf.zsh ] && \
+  source $HOME/.fzf.zsh
+[ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && \
+  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
+  source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #[[ $TERM != "screen" ]] && exec tmux
 #if which tmux 2>&1 >/dev/null; then
