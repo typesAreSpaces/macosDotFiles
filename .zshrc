@@ -33,13 +33,6 @@ export PATH="/usr/local/opt/llvm/bin:$PATH"
 [ -f /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && \
   source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-#[[ $TERM != "screen" ]] && exec tmux
-#if which tmux 2>&1 >/dev/null; then
-  #if [ $TERM != "screen-256color" ] && [ $TERM != "screen" ]; then
-    #tmux attach -t hack || tmux new -s hack; exit
-  #fi
-#fi
-
 # General Aliases
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias sshVB="ssh -p 2222 jose@127.0.0.1"
