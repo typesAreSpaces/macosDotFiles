@@ -4,7 +4,7 @@
 
 export HISTIGNORE='*sudo -S*'
 export ZSH="$HOME/.oh-my-zsh"
-export ZSH_PLUGINS='/usr/share/zsh/plugins'
+export ZSH_PLUGINS='/usr/local/Cellar'
 export GTK_PATH='/usr/lib/gtk-2.0'
 export _JAVA_AWT_WM_NONREPARENTING=1
 

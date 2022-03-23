@@ -9,8 +9,8 @@ plugins=(git)
 TO_SOURCE=(\
   "$ZSH/oh-my-zsh.sh" \
   "$HOME/.fzf.zsh" \
-  "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
-  "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  "$ZSH_PLUGINS/zsh-syntax-highlighting/0.7.1/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+  "$ZSH_PLUGINS/zsh-autosuggestions/0.7.0/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
 )
 ACTIVE_PROJECTS=(\
   "$PHD_THESIS_DIR" \

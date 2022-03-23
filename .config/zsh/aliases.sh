@@ -18,7 +18,6 @@ alias seminar="cd $PHD_DOCUMENTS/Seminars/BeihangUniversity-Fall2021"
 alias side="cd $PHD_THESIS_DIR/Documents/Side-Projects/kapur-nfs-proposal"
 
 # Program aliases
-alias open="xdg-open"
 alias ocaml="rlwrap ocaml"
 alias wolfram="rlwrap wolfram"
 alias m2="M2 --script"
