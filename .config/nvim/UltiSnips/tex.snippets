@@ -1,4 +1,4 @@
-# teneral 
+# General 
 
 snippet ;text "Text" iA
 \\text{ $1 } $0
@@ -13,7 +13,7 @@ snippet ;label "Label" iA
 endsnippet
 
 snippet ;ref "Reference" iA
-\\ref{${1:`!v @+`}} $0
+(\\ref{${1:`!v @+`}}) $0
 endsnippet
 
 snippet ;todo "TODO label" iA
@@ -65,46 +65,57 @@ endsnippet
 # Algorithmic environment
 
 snippet ;algo "Algorithmic environment" iA
-\\begin{algorithm}[${1:H}]
-	\\caption{${2:title}}
-	\\label{${3:label}}
-	\\begin{algorithmic}[1]
-		\\Procedure{${4:name-of-procedure}}{${5:input}}
-		${6:\\Require conditions}
-		${7:\\Ensure conditions}
-		$0
-		\\EndProcedure
-	\\end{algorithmic}
+\\begin{algorithm}${1:[H]}
+	\\DontPrintSemicolon
+	${2:\\caption{${3:name: description}}}
+	${4:\\label{${5:label}}}
+	${6:\\kwInput{${7:input}}
+	\\kwOutput{${8:output}}
+	\\kwRequires{${9:requires}}
+	\\kwEnsures{${10:ensures}}}
+	$0
 \\end{algorithm}
 endsnippet
 
-snippet ;state "Algorithmic Statement" iA
-\\State $1
+snippet ;cmd "Algorithmic Statement" iA
+$0\\;
+endsnippet
+
+snippet ;ifs "Single If Statement" iA
+\\If{$1}{
+	$2
+}
 $0
 endsnippet
 
 snippet ;ife "Algorithm If" iA
-\\If {$1}
+\\uIf{$1}{
 	$2
-${3:\\Else
-	$4}
-\\EndIf
+}
+\\Else{
+	$3
+}
 $0
 endsnippet
 
 snippet ;for "Algorithm For" iA
-\\For {$1}
+\\For{$1}{
 	$2
-\\EndFor
+}
 $0
 endsnippet
 
 snippet ;while "Algorithm While" iA
-\\While {$1}
+\\While{$1}
 	$2
-\\EndWhile
+}
 $0
 endsnippet
+
+snippet ;ret "Algorithm Return" iA
+\\Return $0
+endsnippet
+
 
 # Beamer environment
 
@@ -129,6 +140,10 @@ snippet ;set "Set" iA
 \\set{$1 ${2:\mid $3}}$0
 endsnippet
 
+snippet ;partial "Partial wrt ..." iA
+\\frac{\partial}{\partial $1}$0
+endsnippet 
+
 snippet ;_ "Subindex" iA
 _{$1}$0
 endsnippet
@@ -139,6 +154,22 @@ endsnippet
 
 snippet ;abs "Absolute value" iA
 |$1|$0
+endsnippet
+
+snippet ;max "Max" iA
+\\max($1)$0
+endsnippet
+
+snippet ;min "Min" iA
+\\min($1)$0
+endsnippet
+
+snippet ;ord "Ord" iA
+\\ord_{$1}($2)$0
+endsnippet
+
+snippet ;binom "Binomial Coeffcient" iA
+\\binom{$1}{$2}$0
 endsnippet
 
 snippet ;comb "Combination (n choose k)" iA
@@ -405,15 +436,15 @@ snippet ;gal "Gal" iA
 endsnippet
 
 snippet ;quadmod "QuadMod" iA
-\\QuadMod($1)$0
+\\quadmod($1)$0
 endsnippet
 
 snippet ;preord "PreOrder" iA
-\\PreOrd($1)$0
+\\preord($1)$0
 endsnippet
 
 snippet ;semialg "SemiAlgebraic" iA
-\\SemiAlgebraic($1)$0
+\\semialgebraic($1)$0
 endsnippet
 
 snippet ';prime(\d+)' "LaTeX array" riA
@@ -483,8 +514,10 @@ snippet ;cor "Corollary Environment" iA
 endsnippet
 
 snippet ;eq "Equation Environment" iA
-\begin{equation*}
-	$0
+\begin{equation*} ${2:\label{${3:eq}}}
+	${4:\begin{split}
+		$5
+	\end{split}}$0
 \end{equation*}
 endsnippet
 
@@ -548,6 +581,9 @@ def joinArgsFstArg(rex):
 def stringToPath(s):
 	return s.replace(' ', '\\ ')
 
+def removeExtraQuotes(s):
+	return s[1:-1]
+
 # file_name: either '/kldb.tex' or '/idxdb.tex'
 # cmd_path: either '/home/jose/.local/scripts/add-knowledge -p ' or '/home/jose/.local/scripts/add-glossary -p '
 # prefix_entry: either ' -e \'index=' or ' -e \'newglossaryentry{'
@@ -590,9 +626,9 @@ snippet ';input(\w+[,\w+[\s\w]*]*)  ' "Input file" riA
 `!p
 args = stringify_args(match, 3)
 num_args = len(args)
-if(num_args == 3):
+if (num_args == 3):
 	name, title_name, latex_header = args[0], args[1], args[2]
-elif(num_args == 2):
+elif (num_args == 2):
 	name, title_name, latex_header = args[0], args[1], "section"
 elif (num_args == 1):
 	name, title_name, latex_header = args[0], "", ""
@@ -607,6 +643,48 @@ snip.rv = "\\input{" + name + "}"
 `
 $0
 endsnippet 
+
+# First argument: template 
+# Second argument: operation (optional)
+# Third argument: last_index (optional)
+# Fourth argument: 'o' to indicate the expression is open (i.e. of the form (a, ...) (optional)
+# Fifth argument: '2' to indicate the expression uses a second term (i.e. of the form (a, b, ..., c) (optional)
+snippet ';Seq(.+[,.+[\s.]*]*)  ' "Sequence of symbols - advanced" riA
+`!p
+args = stringify_args(match,5)
+num_args = len(args)
+
+template, last_index, op, is_open, uses_snd = "blank.", "n", ",", False, False
+if (num_args > 0):
+	template = removeExtraQuotes(args[0].strip())
+if (num_args > 1):
+	op = removeExtraQuotes(args[1].strip())
+if (num_args > 2):
+	last_index = removeExtraQuotes(args[2].strip())
+if (num_args > 3):
+	is_open = removeExtraQuotes(args[3].strip()) == 'o'
+if (num_args > 4):
+	is_open = removeExtraQuotes(args[3].strip()) == 'o'
+	uses_snd = removeExtraQuotes(args[4].strip()) == '2'
+
+if(op == ' '):
+	op = ","
+
+last_index = last_index.strip()
+
+if(uses_snd):
+	second_term = template.replace("_", "_2") + " " + op + " "
+else:
+	second_term = ""
+
+if(is_open):
+	last_term = ""
+else:
+	last_term = " " + op + " " + template.replace("_", "_{" + last_index + "}")
+
+snip.rv = template.replace("_", "_1") + " " + op + " " + second_term + "\\dots" + last_term
+`$0
+endsnippet
 
 global !p
 def create_matrix_placeholders(snip):
