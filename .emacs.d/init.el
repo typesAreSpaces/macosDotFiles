@@ -8,17 +8,18 @@
 ;; Make frame transparency overridable
 (defvar efs/frame-transparency '(90 . 90))
 
-;; The default is 800 kilobytes.  Measured in bytes.
-(setq gc-cons-threshold (* 50 1000 1000))
-
-(defun efs/display-startup-time ()
-  (message "Emacs loaded in %s with %d garbage collections."
-           (format "%.2f seconds"
-                   (float-time
-                    (time-subtract after-init-time before-init-time)))
-           gcs-done))
-
-(add-hook 'emacs-startup-hook #'efs/display-startup-time)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;; Initialize package sources
 (require 'package)
@@ -47,6 +48,18 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "09:00"))
 
+;; The default is 800 kilobytes.  Measured in bytes.
+(setq gc-cons-threshold (* 50 1000 1000))
+
+(defun efs/display-startup-time ()
+  (message "Emacs loaded in %s with %d garbage collections."
+           (format "%.2f seconds"
+                   (float-time
+                    (time-subtract after-init-time before-init-time)))
+           gcs-done))
+
+(add-hook 'emacs-startup-hook #'efs/display-startup-time)
+
 ;; NOTE: If you want to move everything out of the ~/.emacs.d folder
 ;; reliably, set `user-emacs-directory` before loading no-littering!
                                         ;(setq user-emacs-directory "~/.cache/emacs")
@@ -58,14 +71,65 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "C-i") 'evil-jump-forward)
+
+(use-package general
+  :after evil
+  :config
+  (general-create-definer efs/leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (efs/leader-keys
+    "c"  'shell-command
+    "t"  '(:ignore t :which-key "toggles")
+    "tt" '(counsel-load-theme :which-key "choose theme")
+    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/Emacs.org")))))
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  :config
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
+(use-package beacon)
+
 (setq inhibit-startup-message t)
 
-;;(scroll-bar-mode -1)        ; Disable visible scrollbar
-(tool-bar-mode -1)          ; Disable the toolbar
-(tooltip-mode -1)           ; Disable tooltips
-;;(set-fringe-mode 10)        ; Give some breathing room
+;;(scroll-bar-mode -1)               ; Disable visible scrollbar
+(tool-bar-mode -1)                 ; Disable the toolbar
+(tooltip-mode -1)                  ; Disable tooltips
+;;(set-fringe-mode 10)               ; Give some breathing room
 
-(menu-bar-mode -1)            ; Disable the menu bar
+(menu-bar-mode -1)                 ; Disable the menu bar
+(desktop-save-mode 1)              ; Store sessions
+;(beacon-mode 1)                    ; Enable beacon
+(server-start)                     ; Start server
+(setq process-connection-type nil) ; Use pipes
+(setq history-length 25)
+(savehist-mode 1)
+(save-place-mode 1)
+(setq use-dialog-box nil)
 
 ;; Set up the visible bell
 (setq visible-bell t)
@@ -105,52 +169,16 @@
 ;; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
 
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-(global-set-key (kbd "C-i") 'evil-jump-forward)
-
-(use-package general
-  :after evil
-  :config
-  (general-create-definer efs/leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-SPC")
-
-  (efs/leader-keys
-    "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")
-    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/Emacs.org")))))
-
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-
-  ;; Use visual line motions even outside of visual-line-mode buffers
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
-
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
-
 (use-package command-log-mode
   :commands command-log-mode)
 
 (use-package doom-themes
-  :init (load-theme 'doom-gruvbox t))
+  :init (load-theme 'doom-palenight t))
+
+;(use-package tron-legacy-theme
+;  :config
+;  (setq tron-legacy-theme-vivid-cursor t)
+;  (load-theme 'tron-legacy t))
 
 (use-package all-the-icons)
 
@@ -503,6 +531,8 @@
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
+(add-hook 'tex-mode-hook 'lsp)
+
 (use-package python-mode
   :ensure t
   :hook (python-mode . lsp-deferred)
@@ -628,6 +658,15 @@
   ;; This is set to 't' to avoid mail syncing issues when using mbsync
   (setq mu4e-change-filenames-when-moving t)
 
+  ;; Just plain text
+  (with-eval-after-load "mm-decode"
+    (add-to-list 'mm-discouraged-alternatives "text/html")
+    (add-to-list 'mm-discouraged-alternatives "text/richtext"))
+
+  (defun jcs-view-in-eww (msg)
+    (eww-browse-url (concat "file://" (mu4e~write-body-to-html msg))))
+  (add-to-list 'mu4e-view-actions '("Eww view" . jcs-view-in-eww) t)
+
   (setq mu4e-update-interval 600)
   (setq mu4e-get-mail-command "mbsync -a")
   (setq mu4e-maildir "~/Mail")
@@ -674,7 +713,7 @@
                   (mu4e-refile-folder . "/cs-unm/Inbox")
                   (mu4e-trash-folder  . "/cs-unm/Trash")
                   (smtpmail-smtp-server . "snape.cs.unm.edu")
-                  (smtpmail-smtp-service . 587)
+                  (smtpmail-smtp-service . 1200)
                   (smtpmail-stream-type . starttls)))))
 
   (setq mu4e-context-policy 'pick-first)
@@ -685,6 +724,8 @@
           ("/unm/Trash" . ?t)
           ("/unm/Drafts". ?d)
           ("/unm/Prof. Kapur". ?k)
+          ("/unm/Prof. Kapur/Side projects/Seminars/Beihang University". ?b)
+          ("/unm/TA Work/CS 429-529". ?m)
           ("/unm/You got a Package!". ?p)
           ("/unm/Archive". ?a)
           ("/cs-unm/Inbox". ?I)
@@ -699,9 +740,17 @@
 (setq mu4e-compose-signature "Best,\nJose")
 (setq message-citation-line-format "On %d %b %Y at %R, %f wrote:\n")
 (setq message-citation-line-function 'message-insert-formatted-citation-line)
+(setq
+ ;; Display
+ mu4e-view-show-addresses t
+ mu4e-view-show-images t
+ mu4e-view-image-max-width 800
+ mu4e-hide-index-messages t)
 
 (define-key global-map (kbd "C-c e")
   (lambda () (interactive) (mu4e)))
+
+(use-package mu-cite)
 
 (use-package dired
   :ensure nil
@@ -769,3 +818,19 @@
 (use-package simpleclip
   :config
   (simpleclip-mode 1))
+
+(setq-default mode-line-format '(
+                                 "%e"
+                                 (:eval
+                                  (if (equal (shell-command-to-string
+                                              "ps aux | grep 'mbsync -a' | wc -l | xargs") "2\n")
+                                      "" "Running mbsync"))
+                                 (:eval
+                                  (doom-modeline-format--main))))
+
+(use-package tex
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil))
