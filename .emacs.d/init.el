@@ -1,13 +1,3 @@
-;; NOTE: init.el is now generated from Emacs.org.  Please edit that file
-;;       in Emacs and init.el will be generated automatically!
-
-;; You will most likely need to adjust this font size for your system!
-(defvar efs/default-font-size 160)
-(defvar efs/default-variable-font-size 160)
-
-;; Make frame transparency overridable
-(defvar efs/frame-transparency '(90 . 90))
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -21,7 +11,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; Initialize package sources
+; Initialize package sources
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -32,7 +22,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; Initialize use-package on non-Linux platforms
+; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
@@ -41,14 +31,10 @@
 
 (use-package auto-package-update
   :custom
-  (auto-package-update-interval 7)
-  (auto-package-update-prompt-before-update t)
   (auto-package-update-hide-results t)
-  :config
-  (auto-package-update-maybe)
-  (auto-package-update-at-time "09:00"))
+  (auto-package-update-delete-old-versions t))
 
-;; The default is 800 kilobytes.  Measured in bytes.
+; The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
 (defun efs/display-startup-time ()
@@ -60,70 +46,68 @@
 
 (add-hook 'emacs-startup-hook #'efs/display-startup-time)
 
-;; NOTE: If you want to move everything out of the ~/.emacs.d folder
-;; reliably, set `user-emacs-directory` before loading no-littering!
+; NOTE: If you want to move everything out of the ~/.emacs.d folder
+; reliably, set `user-emacs-directory` before loading no-littering!
                                         ;(setq user-emacs-directory "~/.cache/emacs")
 
 (use-package no-littering)
 
-;; no-littering doesn't set this by default so we must place
-;; auto save files in the same path as it uses for sessions
+; no-littering doesn't set this by default so we must place
+; auto save files in the same path as it uses for sessions
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "C-i") 'evil-jump-forward)
+; NOTE: init.el is now generated from Emacs.org.  Please edit that file
+;       in Emacs and init.el will be generated automatically!
 
-(use-package general
-  :after evil
-  :config
-  (general-create-definer efs/leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-SPC")
+; You will most likely need to adjust this font size for your system!
+(defvar efs/default-font-size 160)
+(defvar efs/default-variable-font-size 160)
 
-  (efs/leader-keys
-    "c"  'shell-command
-    "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")
-    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/Emacs.org")))))
+; Make frame transparency overridable
+(defvar efs/frame-transparency '(90 . 90))
 
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+(defvar phd-thesis-dir "~/Documents/GithubProjects/phd-thesis")
+(defvar phd-thesis-write-ups-dir
+  (concat phd-thesis-dir
+          "/Documents/Write-Ups"))
+(defvar phd-thesis-org-files-dir
+  (concat phd-thesis-dir
+          "/Documents/Org-Files"))
 
-  ;; Use visual line motions even outside of visual-line-mode buffers
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+(defvar scc-dir 
+  (concat phd-thesis-dir
+          "/Documents/Side-Projects/kapur-nsf-proposal"))
+(defvar scc-reports-dir (concat scc-dir "/Reports"))
+(defvar scc-org-files-dir (concat scc-dir "/Org-Files"))
 
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+(defvar seminar-dir (concat phd-thesis-dir "/Documents/Seminars/BeihangUniversity-Fall2021"))
+(defvar seminar-org-files-dir (concat seminar-dir "/Org-Files"))
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+(defvar research-tasks-mail 
+  (concat phd-thesis-org-files-dir "/research_tasks.org"))
+(defvar lunch-tasks-mail 
+  (concat phd-thesis-org-files-dir "/lunch_tasks.org"))
+(defvar side-tasks-mail 
+  (concat phd-thesis-org-files-dir "/side_tasks.org"))
+(defvar scc-tasks-mail 
+  (concat scc-org-files-dir "/scc_tasks.org"))
+(defvar school-tasks-mail 
+  (concat phd-thesis-org-files-dir "/school_tasks.org"))
+(defvar seminar-tasks-mail 
+  (concat seminar-org-files-dir "/seminar_tasks.org"))
 
 (use-package beacon)
 
 (setq inhibit-startup-message t)
 
-;;(scroll-bar-mode -1)               ; Disable visible scrollbar
 (tool-bar-mode -1)                 ; Disable the toolbar
 (tooltip-mode -1)                  ; Disable tooltips
-;;(set-fringe-mode 10)               ; Give some breathing room
 
 (menu-bar-mode -1)                 ; Disable the menu bar
 (desktop-save-mode 1)              ; Store sessions
-;(beacon-mode 1)                    ; Enable beacon
+(beacon-mode 1)                    ; Enable beacon
+
 (server-start)                     ; Start server
 (setq process-connection-type nil) ; Use pipes
 (setq history-length 25)
@@ -131,25 +115,40 @@
 (save-place-mode 1)
 (setq use-dialog-box nil)
 
-;; Set up the visible bell
+; Set up the visible bell
 (setq visible-bell t)
 
 (column-number-mode)
+(setq-default display-line-numbers-type 'visual) 
 (global-display-line-numbers-mode t)
 
-;; Set frame transparency
+; Set frame transparency
 (set-frame-parameter (selected-frame) 'alpha efs/frame-transparency)
 (add-to-list 'default-frame-alist `(alpha . ,efs/frame-transparency))
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; Disable line numbers for some modes
+                                        ; Disable line numbers for some modes
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 shell-mode-hook
+                mu4e-headers-mode-hook
+                mu4e-view-mode-hook
+                mu4e-main-mode-hook
+                mu4e-org-mode-hook
+                mu4e-compose-mode-hook
                 treemacs-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(setq-default mode-line-format '("%e"
+                                 (:eval
+                                  (if (equal
+                                       (shell-command-to-string
+                                        "ps aux | grep 'mbsync -a' | wc -l")
+                                       "3\n")
+                                      "Running mbsync" ""))
+                                 (:eval (doom-modeline-format--main))))
 
 (use-package dashboard
   :ensure t
@@ -163,11 +162,64 @@
 
 (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
 
-;; Set the fixed pitch face
+; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
 
-;; Set the variable pitch face
+; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
+
+; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "C-i") 'evil-jump-forward)
+(global-set-key (kbd "C-o") 'evil-jump-backward)
+
+(use-package general
+  :after evil
+  :config
+  (general-create-definer efs/leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (efs/leader-keys
+    "c"  '(evilnc-comment-or-uncomment-lines :which-key "Comment line")
+    "s"  '(shell-command :which-key "Shell command")
+    "t"  '(:ignore t :which-key "Toggles")
+    "te"  '(lambda () (interactive) (ansi-term "/usr/bin/zsh"))
+    "tt" '(counsel-load-theme :which-key "Choose theme")
+    "e" '(lambda () (interactive) "Emacs source" (find-file (expand-file-name "~/.emacs.d/Emacs.org")))
+    "a" '(lambda () (interactive) "Agenda" (find-file (expand-file-name (concat phd-thesis-org-files-dir "/main.org"))))
+    "b" '(:ignore t :which-key "Edit References")
+    "bs" '(lambda () (interactive) "Edit References" (find-file (expand-file-name (concat scc-reports-dir "/references.bib"))))
+    "bp" '(lambda () (interactive) "Edit References" (find-file (expand-file-name (concat phd-thesis-write-ups-dir "/references.bib"))))
+    "w" '(lambda () (interactive) "Current Work" (find-file (expand-file-name (concat seminar-dir "/Reports/finding_certificates_qm_univariate/main.tex"))))
+    "g" '(magit-status :which-key "Magit status")
+    "d" '(dired-jump :which-key "Dired jump")
+    "m" '(mu4e :which-key "Mu4e")
+    "p" '(lambda () (interactive) (yasnippet/goto-parent-file))
+    "r" '(org-capture nil :which-key "Org-capture")))
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  :config
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+  ; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
 
 (use-package command-log-mode
   :commands command-log-mode)
@@ -175,16 +227,20 @@
 (use-package doom-themes
   :init (load-theme 'doom-palenight t))
 
-;(use-package tron-legacy-theme
-;  :config
-;  (setq tron-legacy-theme-vivid-cursor t)
-;  (load-theme 'tron-legacy t))
-
 (use-package all-the-icons)
+
+(use-package anzu)
+
+(use-package evil-anzu
+  :config (global-anzu-mode 1)
+  (setq anzu-minimum-input-length 4))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  :custom (
+           (doom-modeline-height 15)
+           (doom-modeline-enable-word-count t)
+           (doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode text-mode))))
 
 (use-package which-key
   :defer 0
@@ -240,9 +296,153 @@
   :custom
   (ivy-prescient-enable-filtering nil)
   :config
-  ;; Uncomment the following line to have sorting remembered across sessions!
-                                        ;(prescient-persist-mode 1)
+  ; Uncomment the following line to have sorting remembered across sessions!
+                                        ;  (prescient-persist-mode 1)
   (ivy-prescient-mode 1))
+
+(use-package selectrum
+  :straight t
+  :config
+  (selectrum-mode +1))
+
+(use-package selectrum-prescient
+  :straight t
+  :after selectrum
+  :config
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
+
+(use-package consult
+  :after selectrum
+  :straight t
+  ; Replace bindings. Lazily loaded due by `use-package'.
+  :bind (; C-x bindings (ctl-x-map)
+         ("C-x M-:" . consult-complex-command)     ; orig. repeat-complex-command
+         ("C-x 4 b" . consult-buffer-other-window) ; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ; orig. switch-to-buffer-other-frame
+         ("C-x r b" . consult-bookmark)            ; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer)      ; orig. project-switch-to-buffer
+         ; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ; Other custom bindings
+         ("M-y" . consult-yank-pop)                ; orig. yank-pop
+         ("<help> a" . consult-apropos)            ; orig. apropos-command
+         ; M-g bindings (goto-map)
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flymake)               ; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ; orig. goto-line
+         ("M-g o" . consult-outline)               ; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ; M-s bindings (search-map)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s L" . consult-line-multi)
+         ("M-s m" . consult-multi-occur)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ; C-c bindings
+         ("C-c C-b" . consult-buffer)                ; orig. switch-to-buffer
+         ("C-c C-l" . consult-line)
+         ("C-c C-f" . consult-find)
+         ("C-c D" . consult-locate)
+         ("C-c h" . consult-history)
+         ("C-c m" . consult-mode-command)
+         ("C-c k" . consult-kmacro)
+         ("C-c C-g" . consult-grep)
+         ; Isearch integration
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)            ; needed by consult-line to detect isearch
+         ; Minibuffer history
+         :map minibuffer-local-map
+         ("M-s" . consult-history)                 ; orig. next-matching-history-element
+         ("M-r" . consult-history))                ; orig. previous-matching-history-element
+
+  ; Enable automatic preview at point in the *Completions* buffer. This is
+  ; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+
+  ; The :init configuration is always executed (Not lazy)
+  :init
+
+  ; Optionally configure the register formatting. This improves the register
+  ; preview for `consult-register', `consult-register-load',
+  ; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+  ; Optionally tweak the register preview window.
+  ; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+  ; Configure other variables and modes in the :config section,
+  ; after lazily loading the package.
+  :config
+  (setq consult-project-root-function (lambda () (project-root (project-current))))
+  ; Optionally configure preview. The default value
+  ; is 'any, such that any key triggers the preview.
+  ; (setq consult-preview-key 'any)
+  ; (setq consult-preview-key (kbd "M-."))
+  ; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
+  ; For some commands and buffer sources it is useful to configure the
+  ; :preview-key on a per-command basis using the `consult-customize' macro.
+  (consult-customize
+   consult-theme
+   :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-recent-file
+   consult--source-project-recent-file
+   :preview-key (kbd "M-."))
+
+  ; Optionally configure the narrowing key.
+  ; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ; (kbd "C-+")
+
+  ; Optionally make narrowing help available in the minibuffer.
+  ; You may want to use `embark-prefix-help-command' or which-key instead.
+  ; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+
+  ; By default `consult-project-function' uses `project-root' from project.el.
+  ; Optionally configure a different project root function.
+  ; There are multiple reasonable alternatives to chose from.
+        ; 1. project.el (the default)
+  ; (setq consult-project-function #'consult--default-project--function)
+        ; 2. projectile.el (projectile-project-root)
+  ; (autoload 'projectile-project-root "projectile")
+  ; (setq consult-project-function (lambda (_) (projectile-project-root)))
+        ; 3. vc.el (vc-root-dir)
+  ; (setq consult-project-function (lambda (_) (vc-root-dir)))
+        ; 4. locate-dominating-file
+  ; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
+  )
+
+(defun consult-grep-current-dir ()
+  "Call `consult-grep' for the current buffer (a single file)."
+  (interactive)
+  (let ((consult-project-function (lambda (x) "./")))
+    (consult-grep)))
+
+(use-package citar
+  :bind (("C-c b" . citar-insert-citation)
+         :map minibuffer-local-map
+         ("M-b" . citar-insert-preset))
+  :custom
+  (citar-bibliography `(,(concat scc-reports-dir "/references.bib")
+                        ,(concat phd-thesis-write-ups-dir "/references.bib"))))
 
 (use-package helpful
   :commands (helpful-callable helpful-variable helpful-command helpful-key)
@@ -268,12 +468,12 @@
   "ts" '(hydra-text-scale/body :which-key "scale text"))
 
 (defun efs/org-font-setup ()
-  ;; Replace list hyphen with dot
+  ; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
                           '(("^ *\\([-]\\) "
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
-  ;; Set faces for heading levels
+  ; Set faces for heading levels
   (dolist (face '((org-level-1 . 1.2)
                   (org-level-2 . 1.1)
                   (org-level-3 . 1.05)
@@ -284,7 +484,7 @@
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  ; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
@@ -296,6 +496,14 @@
   (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
+
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)))
+
+  (push '("conf-unix" . conf-unix) org-src-lang-modes))
 
 (defun efs/org-mode-setup ()
   (org-indent-mode)
@@ -314,11 +522,12 @@
   (setq org-log-into-drawer t)
 
   (setq org-agenda-files
-        '("~/.emacs.d/OrgFiles/Tasks.org"
-          "~/.emacs.d/OrgFiles/Habits.org"
-          "~/.emacs.d/OrgFiles/Birthdays.org"))
+        '("~/.emacs.d/Org-Files/Tasks.org"
+          "~/.emacs.d/Org-Files/Habits.org"
+          "~/.emacs.d/Org-Files/Birthdays.org"))
 
   (require 'org-habit)
+  (require 'org-protocol)
   (add-to-list 'org-modules 'org-habit)
   (setq org-habit-graph-column 60)
 
@@ -330,12 +539,15 @@
         '(("Archive.org" :maxlevel . 1)
           ("Tasks.org" :maxlevel . 1)))
 
-  ;; Save Org buffers after refiling!
+  ; Save Org buffers after refiling!
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+  ; Use find-file instead of file-find-other-window
+  (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
 
   (setq org-tag-alist
         '((:startgroup)
-                                        ; Put mutually exclusive tags here
+           ; Put mutually exclusive tags here
           (:endgroup)
           ("@errand" . ?E)
           ("@home" . ?H)
@@ -347,7 +559,7 @@
           ("note" . ?n)
           ("idea" . ?i)))
 
-  ;; Configure custom agenda views
+  ; Configure custom agenda views
   (setq org-agenda-custom-commands
         '(("d" "Dashboard"
            ((agenda "" ((org-deadline-warning-days 7)))
@@ -361,7 +573,7 @@
 
           ("W" "Work Tasks" tags-todo "+work-email")
 
-          ;; Low-effort next actions
+          ; Low-effort next actions
           ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
            ((org-agenda-overriding-header "Low Effort Tasks")
             (org-agenda-max-todos 20)
@@ -396,33 +608,27 @@
                    (org-agenda-files org-agenda-files)))))))
 
   (setq org-capture-templates
-        `(("t" "Tasks / Projects")
-          ("tt" "Task" entry (file+olp "~/.emacs.d/OrgFiles/Tasks.org" "Inbox")
-           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
-
-          ("j" "Journal Entries")
-          ("jj" "Journal" entry
-           (file+olp+datetree "~/.emacs.d/OrgFiles/Journal.org")
-           "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-           ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-           :clock-in :clock-resume
-           :empty-lines 1)
-          ("jm" "Meeting" entry
-           (file+olp+datetree "~/.emacs.d/OrgFiles/Journal.org")
-           "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-           :clock-in :clock-resume
-           :empty-lines 1)
-
-          ("w" "Workflows")
-          ("we" "Checking Email" entry (file+olp+datetree "~/.emacs.d/OrgFiles/Journal.org")
-           "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
-
-          ("m" "Metrics Capture")
-          ("mw" "Weight" table-line (file+headline "~/.emacs.d/OrgFiles/Metrics.org" "Weight")
-           "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
-
-  (define-key global-map (kbd "C-c j")
-    (lambda () (interactive) (org-capture nil "jj")))
+        `(("m" "Email Capture")
+          ("mr" "Research Tasks" entry
+           (file+olp research-tasks-mail "Captured Email")
+           "* TODO Check this email %a"
+           :immediate-finish t)
+          ("ml" "Lunch Tasks" entry
+           (file+olp lunch-tasks-mail "Captured Email")
+           "* TODO Check this email %a"
+           :immediate-finish t)
+          ("ms" "SCC Project Tasks" entry
+           (file+olp scc-tasks-mail "Captured Email")
+           "* TODO Check this email %a"
+           :immediate-finish t)
+          ("mc" "School Tasks" entry
+           (file+olp school-tasks-mail "Captured Email")
+           "* TODO Check this email %a"
+           :immediate-finish t)
+          ("me" "Seminar Tasks" entry
+           (file+olp seminar-tasks-mail "Captured Email")
+           "* TODO Check this email %a"
+           :immediate-finish t)))
 
   (define-key global-map (kbd "C-c s")
     (lambda () (interactive) (mark-whole-buffer) (org-sort-entries nil ?o)))
@@ -437,10 +643,37 @@
     (when (and buffer-file-name (string-match ".*/todolist.org" (buffer-file-name)))
       (setq unread-command-events (listify-key-sequence "\C-c s"))))
 
-  ;; TODO: keep working on this one
-  ;;(add-hook 'buffer-list-update-hook #'auto/SortTODO)
-
   (efs/org-font-setup))
+
+(unless (boundp 'org-latex-classes)
+  (setq org-latex-classes nil))
+
+(add-to-list 'org-latex-classes
+             '("myarticle"
+               "\\documentclass{article}
+                  [NO-DEFAULT-PACKAGES]
+                 \\usepackage{symbols}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+(add-to-list 'org-latex-classes
+             '("myreport"
+               "\\documentclass[peerreview]{IEEEtran}
+                  [NO-DEFAULT-PACKAGES]
+                 \\usepackage{symbols}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+(use-package ox-hugo
+  :ensure t
+  :pin melpa
+  :after ox)
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -456,30 +689,41 @@
   :hook (org-mode . efs/org-mode-visual-fill))
 
 (with-eval-after-load 'org
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (python . t)))
-
-  (push '("conf-unix" . conf-unix) org-src-lang-modes))
-
-(with-eval-after-load 'org
-  ;; This is needed as of Org 9.2
+  ; This is needed as of Org 9.2
   (require 'org-tempo)
 
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python")))
 
-;; Automatically tangle our Emacs.org config file when we save it
+; Automatically tangle our Emacs.org config file when we save it
 (defun efs/org-babel-tangle-config ()
   (when (string-equal (file-name-directory (buffer-file-name))
                       (expand-file-name user-emacs-directory))
-    ;; Dynamic scoping to the rescue
+    ; Dynamic scoping to the rescue
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (setq yas-key-syntaxes '(yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
+
+(load "~/.emacs.d/snippets/yasnippet-scripts.el")
+
+(use-package perspective
+  :ensure t
+  :bind (("C-x k" . persp-kill-buffer*)
+         ("C-x C-b" . persp-ivy-switch-buffer))
+  :custom
+  (persp-mode-prefix-key (kbd "C-x M-p"))
+  :init
+  (persp-mode))
 
 (defun efs/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
@@ -505,18 +749,18 @@
   :after lsp)
 
 (use-package dap-mode
-  ;; Uncomment the config below if you want all UI panes to be hidden by default!
-  ;; :custom
-  ;; (lsp-enable-dap-auto-configure nil)
-  ;; :config
-  ;; (dap-ui-mode 1)
+  ; Uncomment the config below if you want all UI panes to be hidden by default!
+  ; :custom
+  ; (lsp-enable-dap-auto-configure nil)
+  ; :config
+  ; (dap-ui-mode 1)
   :commands dap-debug
   :config
-  ;; Set up Node debugging
+  ; Set up Node debugging
   (require 'dap-node)
-  (dap-node-setup) ;; Automatically installs Node debug adapter if needed
+  (dap-node-setup) ; Automatically installs Node debug adapter if needed
 
-  ;; Bind `C-c l d` to `dap-hydra` for easy access
+  ; Bind `C-c l d` to `dap-hydra` for easy access
   (general-define-key
    :keymaps 'lsp-mode-map
    :prefix lsp-keymap-prefix
@@ -531,15 +775,57 @@
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
-(add-hook 'tex-mode-hook 'lsp)
+(add-hook 'TeX-mode-hook 'lsp)
+(add-hook 'LaTeX-mode-hook 'lsp)
+
+(add-hook 'TeX-mode-hook #'auto-fill-mode)
+(add-hook 'LaTeX-mode-hook #'auto-fill-mode)
+(setq-default fill-column 80)
+
+(add-hook 'TeX-mode-hook #'display-fill-column-indicator-mode)
+(add-hook 'LaTeX-mode-hook #'display-fill-column-indicator-mode)
+
+(use-package lsp-latex
+  :config
+  (setq lsp-latex-build-executable "latexmk")
+  (setq lsp-latex-build-args '("-pvc" "-pdf" "-interaction=nonstopmode" "-synctex=1" "%f"))
+  (setq lsp-latex-forward-search-after t)
+  (setq lsp-latex-build-on-save t)
+  (setq lsp-latex-forward-search-executable "zathura")
+  (setq lsp-latex-forward-search-args '("--synctex-forward" "%l:1:%f" "%p")))
+
+(defun get-bibtex-from-doi (doi)
+  "Get a BibTeX entry from the DOI"
+  (interactive "MDOI: ")
+  (let ((url-mime-accept-string "text/bibliography;style=bibtex"))
+    (with-current-buffer 
+        (url-retrieve-synchronously 
+         (format "http://dx.doi.org/%s" 
+                 (replace-regexp-in-string "http://dx.doi.org/" "" doi)))
+      (switch-to-buffer (current-buffer))
+      (goto-char (point-max))
+      (setq bibtex-entry 
+            (buffer-substring 
+             (string-match "@" (buffer-string))
+             (point)))
+      (kill-buffer (current-buffer))))
+  (insert (decode-coding-string bibtex-entry 'utf-8))
+  (bibtex-fill-entry))
+
+(use-package tex
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil))
 
 (use-package python-mode
   :ensure t
   :hook (python-mode . lsp-deferred)
   :custom
-  ;; NOTE: Set these if Python 3 is called "python3" on your system!
-  ;; (python-shell-interpreter "python3")
-  ;; (dap-python-executable "python3")
+  ; NOTE: Set these if Python 3 is called "python3" on your system!
+  ; (python-shell-interpreter "python3")
+  ; (dap-python-executable "python3")
   (dap-python-debugger 'debugpy)
   :config
   (require 'dap-python))
@@ -548,6 +834,8 @@
   :after python-mode
   :config
   (pyvenv-mode 1))
+
+(add-to-list 'auto-mode-alist '("\\.mpl\\'" . maplev-mode))
 
 (use-package company
   :after lsp-mode
@@ -570,7 +858,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  ;; NOTE: Set this to the folder where you keep your Git repos!
+  ; NOTE: Set this to the folder where you keep your Git repos!
   (when (file-directory-p "~/Documents/GithubProjects")
     (setq projectile-project-search-path '("~/Documents/GithubProjects")))
   (setq projectile-switch-project-action #'projectile-dired))
@@ -584,9 +872,9 @@
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-;; NOTE: Make sure to configure a GitHub token before using this package!
-;; - https://magit.vc/manual/forge/Token-Creation.html#Token-Creation
-;; - https://magit.vc/manual/ghub/Getting-Started.html#Getting-Started
+; NOTE: Make sure to configure a GitHub token before using this package!
+; - https://magit.vc/manual/forge/Token-Creation.html#Token-Creation
+; - https://magit.vc/manual/ghub/Getting-Started.html#Getting-Started
 (use-package forge
   :after magit)
 
@@ -599,34 +887,27 @@
 (use-package term
   :commands term
   :config
-  (setq explicit-shell-file-name "bash") ;; Change this to zsh, etc
-  ;;(setq explicit-zsh-args '())         ;; Use 'explicit-<shell>-args for shell-specific args
+  (setq explicit-shell-file-name "zsh") ; Change this to zsh, etc
+  ;(setq explicit-zsh-args '())         ; Use 'explicit-<shell>-args for shell-specific args
 
-  ;; Match the default Bash shell prompt.  Update this if you have a custom prompt
+  ; Match the default Bash shell prompt.  Update this if you have a custom prompt
   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *"))
 
 (use-package eterm-256color
   :hook (term-mode . eterm-256color-mode))
-
-(use-package vterm
-  :commands vterm
-  :config
-  (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")  ;; Set this to match your custom shell prompt
-  ;;(setq vterm-shell "zsh")                       ;; Set this to customize the shell to launch
-  (setq vterm-max-scrollback 10000))
 
 (when (eq system-type 'windows-nt)
   (setq explicit-shell-file-name "powershell.exe")
   (setq explicit-powershell.exe-args '()))
 
 (defun efs/configure-eshell ()
-  ;; Save command history when commands are entered
+  ; Save command history when commands are entered
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
 
-  ;; Truncate buffer for performance
+  ; Truncate buffer for performance
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
 
-  ;; Bind some useful keys for evil-mode
+  ; Bind some useful keys for evil-mode
   (evil-define-key '(normal insert visual) eshell-mode-map (kbd "C-r") 'counsel-esh-history)
   (evil-define-key '(normal insert visual) eshell-mode-map (kbd "<home>") 'eshell-bol)
   (evil-normalize-keymaps)
@@ -649,109 +930,6 @@
 
   (eshell-git-prompt-use-theme 'powerline))
 
-(use-package mu4e
-  :ensure nil
-  ;; :load-path "/usr/share/emacs/site-lisp/mu4e/"
-  ;; :defer 20 ; Wait until 20 seconds after startup
-  :config
-
-  ;; This is set to 't' to avoid mail syncing issues when using mbsync
-  (setq mu4e-change-filenames-when-moving t)
-
-  ;; Just plain text
-  (with-eval-after-load "mm-decode"
-    (add-to-list 'mm-discouraged-alternatives "text/html")
-    (add-to-list 'mm-discouraged-alternatives "text/richtext"))
-
-  (defun jcs-view-in-eww (msg)
-    (eww-browse-url (concat "file://" (mu4e~write-body-to-html msg))))
-  (add-to-list 'mu4e-view-actions '("Eww view" . jcs-view-in-eww) t)
-
-  (setq mu4e-update-interval 600)
-  (setq mu4e-get-mail-command "mbsync -a")
-  (setq mu4e-maildir "~/Mail")
-
-  (defun refile-func (msg)
-    (cond
-     ((mu4e-message-contact-field-matches msg :to "kapur@cs.unm.edu")
-      "/unm/Prof. Kapur")
-     ((mu4e-message-contact-field-matches msg :from "kapur@cs.unm.edu")
-      "/unm/Prof. Kapur")
-     ((mu4e-message-contact-field-matches msg :cc "kapur@cs.unm.edu")
-      "/unm/Prof. Kapur")
-     (t "/unm/Archive")))
-
-  (setq mu4e-contexts
-        (list
-         ;; School account
-         (make-mu4e-context
-          :name "School"
-          :match-func
-          (lambda (msg)
-            (when msg
-              (string-prefix-p "/unm" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address  . "jabelcastellanosjoo@unm.edu")
-                  (user-full-name     . "Jose Abel Castellanos Joo")
-                  (mu4e-drafts-folder . "/unm/Drafts")
-                  (mu4e-sent-folder   . "/unm/Sent")
-                  (mu4e-refile-folder . refile-func)
-                  (mu4e-trash-folder  . "/unm/Trash")
-                  (smtpmail-smtp-server . "smtp.office365.com")
-                  (smtpmail-smtp-service . 587)
-                  (smtpmail-stream-type . starttls)))
-         ;; School CS department account
-         (make-mu4e-context
-          :name "CS department"
-          :match-func
-          (lambda (msg)
-            (when msg
-              (string-prefix-p "/cs-unm" (mu4e-message-field msg :maildir))))
-          :vars '((user-mail-address  . "jose.castellanosjoo@cs.unm.edu")
-                  (user-full-name     . "Jose Abel Castellanos Joo")
-                  (mu4e-drafts-folder . "/cs-unm/Drafts")
-                  ;;(mu4e-sent-folder   . "/cs-unm/Sent")
-                  (mu4e-refile-folder . "/cs-unm/Inbox")
-                  (mu4e-trash-folder  . "/cs-unm/Trash")
-                  (smtpmail-smtp-server . "snape.cs.unm.edu")
-                  (smtpmail-smtp-service . 1200)
-                  (smtpmail-stream-type . starttls)))))
-
-  (setq mu4e-context-policy 'pick-first)
-
-  (setq mu4e-maildir-shortcuts
-        '(("/unm/Inbox" . ?i)
-          ("/unm/Sent"  . ?s)
-          ("/unm/Trash" . ?t)
-          ("/unm/Drafts". ?d)
-          ("/unm/Prof. Kapur". ?k)
-          ("/unm/Prof. Kapur/Side projects/Seminars/Beihang University". ?b)
-          ("/unm/TA Work/CS 429-529". ?m)
-          ("/unm/You got a Package!". ?p)
-          ("/unm/Archive". ?a)
-          ("/cs-unm/Inbox". ?I)
-          ("/cs-unm/Trash". ?T)
-          ("/cs-unm/Drafts". ?D))))
-
-(setq message-send-mail-function 'smtpmail-send-it)
-(setq mu4e-headers-show-threads nil)
-(setq mu4e-attachment-dir  "~/Downloads")
-(setq mu4e-confirm-quit nil)
-(setq mu4e-headers-results-limit -1)
-(setq mu4e-compose-signature "Best,\nJose")
-(setq message-citation-line-format "On %d %b %Y at %R, %f wrote:\n")
-(setq message-citation-line-function 'message-insert-formatted-citation-line)
-(setq
- ;; Display
- mu4e-view-show-addresses t
- mu4e-view-show-images t
- mu4e-view-image-max-width 800
- mu4e-hide-index-messages t)
-
-(define-key global-map (kbd "C-c e")
-  (lambda () (interactive) (mu4e)))
-
-(use-package mu-cite)
-
 (use-package dired
   :ensure nil
   :commands (dired dired-jump)
@@ -762,6 +940,8 @@
     "h" 'dired-single-up-directory
     "l" 'dired-single-buffer))
 
+(put 'dired-find-alternate-file 'disabled nil)
+
 (use-package dired-single
   :commands (dired dired-jump))
 
@@ -771,8 +951,8 @@
 (use-package dired-open
   :commands (dired dired-jump)
   :config
-  ;; Doesn't work as expected!
-  ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+  ; Doesn't work as expected!
+  ;(add-to-list 'dired-open-functions #'dired-open-xdg t)
   (setq dired-open-extensions '(("png" . "feh")
                                 ("mkv" . "mpv"))))
 
@@ -782,15 +962,8 @@
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
 
-;; Make gc pauses faster by decreasing the threshold.
+; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
-
-(use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-  (yas-global-mode 1))
-
-(use-package yasnippet-snippets)
 
 (use-package hide-mode-line)
 
@@ -819,18 +992,112 @@
   :config
   (simpleclip-mode 1))
 
-(setq-default mode-line-format '(
-                                 "%e"
-                                 (:eval
-                                  (if (equal (shell-command-to-string
-                                              "ps aux | grep 'mbsync -a' | wc -l | xargs") "2\n")
-                                      "" "Running mbsync"))
-                                 (:eval
-                                  (doom-modeline-format--main))))
+(use-package markdown-preview-eww
+  :ensure nil
+  :straight (
+             :host github
+             :files ("*.el")
+             :repo "niku/markdown-preview-eww"))
 
-(use-package tex
-  :ensure auctex
+(use-package mu4e
+  :ensure nil
+  ; :load-path "/usr/share/emacs/site-lisp/mu4e/"
+  ; :defer 20 ; Wait until 20 seconds after startup
   :config
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq-default TeX-master nil))
+  (require 'mu4e)
+  (require 'mu4e-org)
+
+  ; This is set to 't' to avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+
+  ; Just plain text
+  (with-eval-after-load "mm-decode"
+    (add-to-list 'mm-discouraged-alternatives "text/html")
+    (add-to-list 'mm-discouraged-alternatives "text/richtext"))
+
+  (defun jcs-view-in-eww (msg)
+    (eww-browse-url (concat "file://" (mu4e~write-body-to-html msg))))
+  (add-to-list 'mu4e-view-actions '("Eww view" . jcs-view-in-eww) t)
+
+  (setq mu4e-update-interval 600)
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir "~/Mail")
+
+  (defun refile-func (msg)
+    (cond
+     ((mu4e-message-contact-field-matches msg :to "kapur@cs.unm.edu")
+      "/unm/Prof. Kapur")
+     ((mu4e-message-contact-field-matches msg :from "kapur@cs.unm.edu")
+      "/unm/Prof. Kapur")
+     ((mu4e-message-contact-field-matches msg :cc "kapur@cs.unm.edu")
+      "/unm/Prof. Kapur")
+     (t "/unm/Archive")))
+
+  (setq mu4e-contexts
+        (list
+         ; School account
+         (make-mu4e-context
+          :name "School"
+          :match-func
+          (lambda (msg)
+            (when msg
+              (string-prefix-p "/unm" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address  . "jabelcastellanosjoo@unm.edu")
+                  (user-full-name     . "Jose Abel Castellanos Joo")
+                  (mu4e-drafts-folder . "/unm/Drafts")
+                  (mu4e-sent-folder   . "/unm/Sent")
+                  (mu4e-refile-folder . refile-func)
+                  (mu4e-trash-folder  . "/unm/Trash")
+                  (smtpmail-smtp-server . "smtp.office365.com")
+                  (smtpmail-smtp-service . 587)
+                  (smtpmail-stream-type . starttls)))
+         ; School CS department account
+         (make-mu4e-context
+          :name "CS department"
+          :match-func
+          (lambda (msg)
+            (when msg
+              (string-prefix-p "/cs-unm" (mu4e-message-field msg :maildir))))
+          :vars '((user-mail-address  . "jose.castellanosjoo@cs.unm.edu")
+                  (user-full-name     . "Jose Abel Castellanos Joo")
+                  (mu4e-drafts-folder . "/cs-unm/Drafts")
+                  ;(mu4e-sent-folder   . "/cs-unm/Sent")
+                  (mu4e-refile-folder . "/cs-unm/Inbox")
+                  (mu4e-trash-folder  . "/cs-unm/Trash")
+                  (smtpmail-smtp-server . "snape.cs.unm.edu")
+                  (smtpmail-smtp-service . 1200)
+                  (smtpmail-stream-type . starttls)))))
+
+  (setq mu4e-context-policy 'pick-first)
+
+  (setq mu4e-maildir-shortcuts
+        '(("/unm/Inbox" . ?i)
+          ("/unm/Sent"  . ?s)
+          ("/unm/Trash" . ?t)
+          ("/unm/Drafts". ?d)
+          ("/unm/Prof. Kapur". ?k)
+          ("/unm/Prof. Kapur/Side projects/Seminars/Beihang University". ?b)
+          ("/unm/You got a Package!". ?p)
+          ("/unm/Archive". ?a)
+          ("/cs-unm/Inbox". ?I)
+          ("/cs-unm/Trash". ?T)
+          ("/cs-unm/Drafts". ?D))))
+
+(setq mu4e-use-fancy-chars t)
+(setq message-send-mail-function 'smtpmail-send-it)
+(setq mu4e-attachment-dir  "~/Downloads")
+(setq mu4e-headers-show-threads nil)
+(setq mu4e-confirm-quit nil)
+(setq mu4e-headers-results-limit -1)
+(setq mu4e-compose-signature "Best,\nJose")
+(setq message-citation-line-format "On %d %b %Y at %R, %f wrote:\n")
+(setq message-citation-line-function 'message-insert-formatted-citation-line)
+(setq
+ ; Display
+ mu4e-view-show-addresses t
+ mu4e-view-show-images t
+ mu4e-view-image-max-width 800
+ mu4e-hide-index-messages t)
+
+(use-package org-mime
+  :ensure t)
