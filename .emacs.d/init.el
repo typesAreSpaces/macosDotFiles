@@ -160,13 +160,13 @@
                           (bookmarks . 10)))
   (dashboard-setup-startup-hook))
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+(set-face-attribute 'default nil :font "Hack" :height efs/default-font-size)
 
 ; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil :font "Hack" :height efs/default-font-size)
 
 ; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
+(set-face-attribute 'variable-pitch nil :font "Hack" :height efs/default-variable-font-size :weight 'regular)
 
 ; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -482,7 +482,7 @@
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Hack" :weight 'regular :height (cdr face)))
 
   ; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
@@ -1001,8 +1001,10 @@
 
 (use-package mu4e
   :ensure nil
-  ; :load-path "/usr/share/emacs/site-lisp/mu4e/"
+  :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/"
   ; :defer 20 ; Wait until 20 seconds after startup
+  :init
+  (setq mu4e-mu-binary (executable-find "mu"))
   :config
   (require 'mu4e)
   (require 'mu4e-org)
