@@ -9,13 +9,12 @@ alias second_home="cd /media"
 alias phd="cd $PHD_THESIS_DIR"
 alias papers_for_thesis="cd $PHD_THESIS_DIR/Documents/Papers"
 alias extra="cd $PHD_THESIS_DIR/Documents/Side-Projects/kapur-talks/mpi21"
-alias report="cd $REPORTS_DIR/$CURRENT_REPORT"
-alias ta="cd $CURRENT_TA_DIR"
-alias grading="cd $CURRENT_TA_DIR/Assignments/Project-1/Students"
+#alias report="cd $REPORTS_DIR/$CURRENT_REPORT"
+alias report="cd $SEMINAR_REPORTS/$CURRENT_REPORT"
 alias thesis="cd $WRITE_UPS_DIR/thesis"
 alias personal_notes="cd $WRITE_UPS_DIR/personal_notes"
 alias seminar="cd $PHD_DOCUMENTS/Seminars/BeihangUniversity-Fall2021"
-alias side="cd $PHD_THESIS_DIR/Documents/Side-Projects/kapur-nfs-proposal"
+alias scc="cd $PHD_THESIS_DIR/Documents/Side-Projects/kapur-nfs-proposal"
 
 # Program aliases
 alias ocaml="rlwrap ocaml"
@@ -33,19 +32,15 @@ alias smtinterpol="java -jar $APPS_DIR/smtinterpol-2.5-663-gf15aa217.jar"
 alias ccwr="changeCurrentWeeklyReport"
 alias qcu="quickConfigUpdate"
 alias bsptall1="bspLayout tall 1"
-alias tksp="tmux kill-pane"
-alias tks="tmux kill-session"
 alias tksr="tmux kill-server"
-alias t="tmux"
-alias te="tmux new-session -s work -d;\
-  tmux rename-window -t work:1 org-agenda; \
-  tmux send-keys -t work:1 \
-  emacs\ -nw\ $TODOLIST_DIR/main.org\ \
-  C-m;\
-  tmux new-window -t work:2 -n report;\
-  tmux send-keys -t work:2 \
-  report C-m; \
-  tmux a -t work"
+alias agenda="tmux rename-session agenda;\
+  tmux rename-window -t agenda:1 org-agenda; \
+  tmux send-keys -t agenda:1 \
+  emacsclient\ -nw\ $TODOLIST_DIR/main.org\ \
+  C-m;"
+alias spass="SPASS"
+alias singular="Singular"
+alias mozilla="firefox"
 
 # Docker aliases
 alias seahorn="systemctl start docker && sudo docker run -v $(pwd):/host -it seahorn/seahorn-llvm5"
