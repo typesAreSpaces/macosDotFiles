@@ -35,6 +35,7 @@ export SCRIPT_DIR="$HOME/.local/scripts"
 export ZSH_SCRIPT_DIR="$HOME/.config/zsh/scripts"
 
 export PATH="/usr/bin:$PATH"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
 export PATH="$HOME/.opam/system/bin:$PATH"
