@@ -141,15 +141,6 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(setq-default mode-line-format '("%e"
-                                 (:eval
-                                  (if (equal
-                                       (shell-command-to-string
-                                        "ps aux | grep 'mbsync -a' . | wc -l")
-                                       "2\n")
-                                      "Running mbsync" ""))
-                                 (:eval (doom-modeline-format--main))))
-
 (use-package dashboard
   :ensure t
   :diminish dashboard-mode
@@ -241,6 +232,15 @@
            (doom-modeline-height 15)
            (doom-modeline-enable-word-count t)
            (doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode text-mode))))
+
+(setq-default mode-line-format '("%e"
+                                 (:eval
+                                  (if (equal
+                                       (shell-command-to-string
+                                        "ps aux | grep 'mbsync -a' | wc -l | xargs")
+                                       "3\n")
+                                      "Running mbsync" ""))
+                                 (:eval (doom-modeline-format--main))))
 
 (use-package which-key
   :defer 0
@@ -1006,7 +1006,7 @@
   :load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/"
                                         ; :defer 20 ; Wait until 20 seconds after startup
   :init
-  (setq mu4e-mu-binary (executable-find "mu"))
+  (setq mu4e-mu-binary "/usr/local/bin/mu")
   :config
   (require 'mu4e)
   (require 'mu4e-org)
