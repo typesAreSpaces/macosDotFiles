@@ -62,6 +62,11 @@ local mappings = {
     f = {'<cmd>lua vim.lsp.buf.formatting()<CR>', "Formatting"},
   },
 
+  n = {
+    name = "NvimTree",
+    t = {"<cmd>:NvimTreeToggle<CR>", "Toggle"},
+  },
+
   s = {
     name = "Source Configs",
     u = {"<cmd>call UltiSnips#RefreshSnippets()<CR><cmd>echon 'Snippets refreshed'<CR>", "Source UltinSnippets Config"},
@@ -85,9 +90,10 @@ local mappings = {
   v = {
     name = "VimTex",
     a = {"<cmd>lua ToggleActiveRefresh()<CR>", "Toggle Active Refresh"},
-    f = {"<cmd>lua ParentFile()<CR><CR>", "Go to Parent File"},
     s = {"<cmd>mksession! session<CR><cmd>echon 'Session saved'<CR>", "Save session"},
   },
+
+  p = { "<cmd>lua ParentFile()<CR><CR>", "Go to Parent File"},
 
   w = {
     name = "Windows",
