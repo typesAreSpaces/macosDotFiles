@@ -65,7 +65,7 @@
 
 (defun yasnippet/parent-file ()
   (let* ((file_name (substring (buffer-name) 0 -4))
-	 (grep_command (concat "grep -nr input{" file_name "}"))
+	 (grep_command (concat "grep -nr input{" file_name "} ."))
 	 (grep_output (shell-command-to-string grep_command))
 	 (position (yasnippet/find-char-position (string-to-list grep_output) 58 0)))
     (if (equal position (- 1)) "" (substring grep_output 0 position))))

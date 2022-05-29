@@ -145,7 +145,7 @@
                                  (:eval
                                   (if (equal
                                        (shell-command-to-string
-                                        "ps aux | grep 'mbsync -a' | wc -l")
+                                        "ps aux | grep 'mbsync -a' . | wc -l")
                                        "2\n")
                                       "Running mbsync" ""))
                                  (:eval (doom-modeline-format--main))))
