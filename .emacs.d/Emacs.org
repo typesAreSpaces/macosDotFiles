@@ -1495,6 +1495,14 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 
 *** Configuration
 
+Privacy concerns in macos requires to explicitly provide emacs, /usr/bin/ruby permission to the Full Disk in order to display files using Dired. Additionaly, the following utilities are required:
+
+#+begin_src
+
+brew install coreutils
+
+#+end_src
+
 #+begin_src emacs-lisp
 
   (use-package dired
@@ -1719,6 +1727,12 @@ mu index
        ((mu4e-message-contact-field-matches msg :from "kapur@cs.unm.edu")
         "/unm/Prof. Kapur")
        ((mu4e-message-contact-field-matches msg :cc "kapur@cs.unm.edu")
+        "/unm/Prof. Kapur")
+       ((mu4e-message-contact-field-matches msg :to "kapur@unm.edu")
+        "/unm/Prof. Kapur")
+       ((mu4e-message-contact-field-matches msg :from "kapur@unm.edu")
+        "/unm/Prof. Kapur")
+       ((mu4e-message-contact-field-matches msg :cc "kapur@unm.edu")
         "/unm/Prof. Kapur")
        (t "/unm/Archive")))
 

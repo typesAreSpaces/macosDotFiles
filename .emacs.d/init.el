@@ -1035,6 +1035,12 @@
       "/unm/Prof. Kapur")
      ((mu4e-message-contact-field-matches msg :cc "kapur@cs.unm.edu")
       "/unm/Prof. Kapur")
+     ((mu4e-message-contact-field-matches msg :to "kapur@unm.edu")
+      "/unm/Prof. Kapur")
+     ((mu4e-message-contact-field-matches msg :from "kapur@unm.edu")
+      "/unm/Prof. Kapur")
+     ((mu4e-message-contact-field-matches msg :cc "kapur@unm.edu")
+      "/unm/Prof. Kapur")
      (t "/unm/Archive")))
 
   (setq mu4e-contexts
