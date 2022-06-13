@@ -22,7 +22,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-; Initialize use-package on non-Linux platforms
+                                        ; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
@@ -47,24 +47,24 @@
 (add-hook 'emacs-startup-hook #'efs/display-startup-time)
 
 ; NOTE: If you want to move everything out of the ~/.emacs.d folder
-; reliably, set `user-emacs-directory` before loading no-littering!
+                                        ; reliably, set `user-emacs-directory` before loading no-littering!
                                         ;(setq user-emacs-directory "~/.cache/emacs")
 
 (use-package no-littering)
 
-; no-littering doesn't set this by default so we must place
-; auto save files in the same path as it uses for sessions
+                                        ; no-littering doesn't set this by default so we must place
+                                        ; auto save files in the same path as it uses for sessions
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 ; NOTE: init.el is now generated from Emacs.org.  Please edit that file
-;       in Emacs and init.el will be generated automatically!
+                                        ;       in Emacs and init.el will be generated automatically!
 
-; You will most likely need to adjust this font size for your system!
+                                        ; You will most likely need to adjust this font size for your system!
 (defvar efs/default-font-size 160)
 (defvar efs/default-variable-font-size 160)
 
-; Make frame transparency overridable
+                                        ; Make frame transparency overridable
 (defvar efs/frame-transparency '(90 . 90))
 
 (defvar phd-thesis-dir "~/Documents/GithubProjects/phd-thesis")
@@ -101,8 +101,10 @@
 
 (setq inhibit-startup-message t)
 
+(scroll-bar-mode -1)               ; Disable visible scrollbar
 (tool-bar-mode -1)                 ; Disable the toolbar
 (tooltip-mode -1)                  ; Disable tooltips
+(set-fringe-mode 10)               ; Give some breathing room
 
 (menu-bar-mode -1)                 ; Disable the menu bar
 (desktop-save-mode 1)              ; Store sessions
@@ -115,14 +117,14 @@
 (save-place-mode 1)
 (setq use-dialog-box nil)
 
-; Set up the visible bell
+                                        ; Set up the visible bell
 (setq visible-bell t)
 
 (column-number-mode)
 (setq-default display-line-numbers-type 'visual) 
 (global-display-line-numbers-mode t)
 
-; Set frame transparency
+                                        ; Set frame transparency
 (set-frame-parameter (selected-frame) 'alpha efs/frame-transparency)
 (add-to-list 'default-frame-alist `(alpha . ,efs/frame-transparency))
 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
@@ -132,12 +134,15 @@
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 shell-mode-hook
+                markdown-mode-hook
                 mu4e-headers-mode-hook
                 mu4e-view-mode-hook
                 mu4e-main-mode-hook
                 mu4e-org-mode-hook
                 mu4e-compose-mode-hook
                 treemacs-mode-hook
+                TeX-mode-hook
+                LaTeX-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
@@ -532,8 +537,10 @@
   (setq org-habit-graph-column 60)
 
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-          (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+        '((sequence "GOAL(g)" "|")
+          (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+          (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")
+          (sequence "EMAIL(e)" "|")))
 
   (setq org-refile-targets
         '(("Archive.org" :maxlevel . 1)
@@ -610,24 +617,24 @@
   (setq org-capture-templates
         `(("m" "Email Capture")
           ("mr" "Research Tasks" entry
-           (file+olp research-tasks-mail "Captured Email")
-           "* TODO Check this email %a"
+           (file+olp research-tasks-mail "EMAIL")
+           "** TODO Check this email %a"
            :immediate-finish t)
           ("ml" "Lunch Tasks" entry
-           (file+olp lunch-tasks-mail "Captured Email")
-           "* TODO Check this email %a"
+           (file+olp lunch-tasks-mail "EMAIL")
+           "** TODO Check this email %a"
            :immediate-finish t)
           ("ms" "SCC Project Tasks" entry
-           (file+olp scc-tasks-mail "Captured Email")
-           "* TODO Check this email %a"
+           (file+olp scc-tasks-mail "EMAIL")
+           "** TODO Check this email %a"
            :immediate-finish t)
           ("mc" "School Tasks" entry
-           (file+olp school-tasks-mail "Captured Email")
-           "* TODO Check this email %a"
+           (file+olp school-tasks-mail "EMAIL")
+           "** TODO Check this email %a"
            :immediate-finish t)
           ("me" "Seminar Tasks" entry
-           (file+olp seminar-tasks-mail "Captured Email")
-           "* TODO Check this email %a"
+           (file+olp seminar-tasks-mail "EMAIL")
+           "** TODO Check this email %a"
            :immediate-finish t)))
 
   (define-key global-map (kbd "C-c s")
@@ -686,7 +693,11 @@
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
+  :hook ((org-mode . efs/org-mode-visual-fill)
+         (markdown-mode . efs/org-mode-visual-fill)
+         (Tex-mode . efs/org-mode-visual-fill)
+         (LaTeX-mode . efs/org-mode-visual-fill)
+         (mu4e-main-mode . efs/org-mode-visual-fill)))
 
 (with-eval-after-load 'org
                                         ; This is needed as of Org 9.2
@@ -710,6 +721,8 @@
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (setq yas-key-syntaxes '(yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))
+  (define-key yas-minor-mode-map (kbd "C-g") 'evil-normal-state)
+  (define-key yas-keymap (kbd "C-g") 'evil-normal-state)
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets)
@@ -778,6 +791,9 @@
 (add-hook 'TeX-mode-hook 'lsp)
 (add-hook 'LaTeX-mode-hook 'lsp)
 
+(add-hook 'TeX-mode-hook 'turn-on-reftex)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+
 (add-hook 'TeX-mode-hook #'auto-fill-mode)
 (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
 (setq-default fill-column 80)
@@ -817,7 +833,8 @@
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
-  (setq-default TeX-master nil))
+  (setq-default TeX-master nil)
+  (setq reftex-ref-macro-prompt nil))
 
 (use-package python-mode
   :ensure t
@@ -835,7 +852,11 @@
   :config
   (pyvenv-mode 1))
 
+(defvar maplev-package "/home/jose/maple/toolbox/maplev/maplev-3.0.4.tar")
+(if (file-exists-p maplev-package) (package-install-file maplev-package))
+
 (add-to-list 'auto-mode-alist '("\\.mpl\\'" . maplev-mode))
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . maplev-mode))
 
 (use-package company
   :after lsp-mode
@@ -938,9 +959,7 @@
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
     "h" 'dired-single-up-directory
-    "l" 'dired-single-buffer)
-  (setq insert-directory-program "gls" dired-use-ls-dired t)
-  (setq dired-listing-switches "-al --group-directories-first"))
+    "l" 'dired-single-buffer))
 
 (put 'dired-find-alternate-file 'disabled nil)
 

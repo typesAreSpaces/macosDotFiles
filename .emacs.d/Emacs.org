@@ -30,7 +30,7 @@ Emacs has a built in package manager but it doesn't make it easy to automaticall
 
 #+begin_src emacs-lisp
 
-  ; Initialize package sources
+                                          ; Initialize package sources
   (require 'package)
 
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -41,7 +41,7 @@ Emacs has a built in package manager but it doesn't make it easy to automaticall
   (unless package-archive-contents
     (package-refresh-contents))
 
-  ; Initialize use-package on non-Linux platforms
+                                          ; Initialize use-package on non-Linux platforms
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
@@ -69,7 +69,7 @@ You can also use =M-x auto-package-update-now= to update right now!
 
 #+begin_src emacs-lisp
 
-  ; The default is 800 kilobytes.  Measured in bytes.
+                                          ; The default is 800 kilobytes.  Measured in bytes.
   (setq gc-cons-threshold (* 50 1000 1000))
 
   (defun efs/display-startup-time ()
@@ -89,14 +89,14 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 
 #+begin_src emacs-lisp
 
-  ; NOTE: If you want to move everything out of the ~/.emacs.d folder
-  ; reliably, set `user-emacs-directory` before loading no-littering!
+                                          ; NOTE: If you want to move everything out of the ~/.emacs.d folder
+                                          ; reliably, set `user-emacs-directory` before loading no-littering!
                                           ;(setq user-emacs-directory "~/.cache/emacs")
 
   (use-package no-littering)
 
-  ; no-littering doesn't set this by default so we must place
-  ; auto save files in the same path as it uses for sessions
+                                          ; no-littering doesn't set this by default so we must place
+                                          ; auto save files in the same path as it uses for sessions
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
@@ -106,14 +106,14 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 
 #+begin_src emacs-lisp
 
-  ; NOTE: init.el is now generated from Emacs.org.  Please edit that file
-  ;       in Emacs and init.el will be generated automatically!
+                                          ; NOTE: init.el is now generated from Emacs.org.  Please edit that file
+                                          ;       in Emacs and init.el will be generated automatically!
 
-  ; You will most likely need to adjust this font size for your system!
+                                          ; You will most likely need to adjust this font size for your system!
   (defvar efs/default-font-size 160)
   (defvar efs/default-variable-font-size 160)
 
-  ; Make frame transparency overridable
+                                          ; Make frame transparency overridable
   (defvar efs/frame-transparency '(90 . 90))
 
   (defvar phd-thesis-dir "~/Documents/GithubProjects/phd-thesis")
@@ -158,8 +158,10 @@ This section configures basic UI settings that remove unneeded elements to make 
 
   (setq inhibit-startup-message t)
 
+  (scroll-bar-mode -1)               ; Disable visible scrollbar
   (tool-bar-mode -1)                 ; Disable the toolbar
   (tooltip-mode -1)                  ; Disable tooltips
+  (set-fringe-mode 10)               ; Give some breathing room
 
   (menu-bar-mode -1)                 ; Disable the menu bar
   (desktop-save-mode 1)              ; Store sessions
@@ -172,14 +174,14 @@ This section configures basic UI settings that remove unneeded elements to make 
   (save-place-mode 1)
   (setq use-dialog-box nil)
 
-  ; Set up the visible bell
+                                          ; Set up the visible bell
   (setq visible-bell t)
 
   (column-number-mode)
   (setq-default display-line-numbers-type 'visual) 
   (global-display-line-numbers-mode t)
 
-  ; Set frame transparency
+                                          ; Set frame transparency
   (set-frame-parameter (selected-frame) 'alpha efs/frame-transparency)
   (add-to-list 'default-frame-alist `(alpha . ,efs/frame-transparency))
   (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
@@ -189,12 +191,15 @@ This section configures basic UI settings that remove unneeded elements to make 
   (dolist (mode '(org-mode-hook
                   term-mode-hook
                   shell-mode-hook
+                  markdown-mode-hook
                   mu4e-headers-mode-hook
                   mu4e-view-mode-hook
                   mu4e-main-mode-hook
                   mu4e-org-mode-hook
                   mu4e-compose-mode-hook
                   treemacs-mode-hook
+                  TeX-mode-hook
+                  LaTeX-mode-hook
                   eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
@@ -342,7 +347,7 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
 
 #+end_src
 
-** Mode Line
+**** Mode Line
 
 #+begin_src emacs-lisp 
 
@@ -357,7 +362,7 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
 
 #+end_src
 
-**** Which Key
+** Which Key
 
 [[https://github.com/justbur/emacs-which-key][which-key]] is a useful UI panel that appears when you start pressing any key binding in Emacs to offer you all possible completions for the prefix.  For example, if you press =C-c= (hold control and press the letter =c=), a panel will appear at the bottom of the frame displaying all of the bindings under that prefix and which command they run.  This is very useful for learning the possible key bindings in the mode of your current buffer.
 
@@ -700,147 +705,149 @@ This section contains the basic configuration for =org-mode= plus the configurat
 
 #+begin_src emacs-lisp
 
-  (defun efs/org-mode-setup ()
-    (org-indent-mode)
-    (variable-pitch-mode 1)
-    (visual-line-mode 1))
+      (defun efs/org-mode-setup ()
+        (org-indent-mode)
+        (variable-pitch-mode 1)
+        (visual-line-mode 1))
 
-  (use-package org
-    :pin org
-    :commands (org-capture org-agenda)
-    :hook (org-mode . efs/org-mode-setup)
-    :config
-    (setq org-ellipsis " ▾")
+      (use-package org
+        :pin org
+        :commands (org-capture org-agenda)
+        :hook (org-mode . efs/org-mode-setup)
+        :config
+        (setq org-ellipsis " ▾")
 
-    (setq org-agenda-start-with-log-mode t)
-    (setq org-log-done 'time)
-    (setq org-log-into-drawer t)
+        (setq org-agenda-start-with-log-mode t)
+        (setq org-log-done 'time)
+        (setq org-log-into-drawer t)
 
-    (setq org-agenda-files
-          '("~/.emacs.d/Org-Files/Tasks.org"
-            "~/.emacs.d/Org-Files/Habits.org"
-            "~/.emacs.d/Org-Files/Birthdays.org"))
+        (setq org-agenda-files
+              '("~/.emacs.d/Org-Files/Tasks.org"
+                "~/.emacs.d/Org-Files/Habits.org"
+                "~/.emacs.d/Org-Files/Birthdays.org"))
 
-    (require 'org-habit)
-    (require 'org-protocol)
-    (add-to-list 'org-modules 'org-habit)
-    (setq org-habit-graph-column 60)
+        (require 'org-habit)
+        (require 'org-protocol)
+        (add-to-list 'org-modules 'org-habit)
+        (setq org-habit-graph-column 60)
 
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-            (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+        (setq org-todo-keywords
+              '((sequence "GOAL(g)" "|")
+                (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+                (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")
+                (sequence "EMAIL(e)" "|")))
 
-    (setq org-refile-targets
-          '(("Archive.org" :maxlevel . 1)
-            ("Tasks.org" :maxlevel . 1)))
+        (setq org-refile-targets
+              '(("Archive.org" :maxlevel . 1)
+                ("Tasks.org" :maxlevel . 1)))
 
-                                          ; Save Org buffers after refiling!
-    (advice-add 'org-refile :after 'org-save-all-org-buffers)
+                                              ; Save Org buffers after refiling!
+        (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
-                                          ; Use find-file instead of file-find-other-window
-    (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+                                              ; Use find-file instead of file-find-other-window
+        (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
 
-    (setq org-tag-alist
-          '((:startgroup)
-                                          ; Put mutually exclusive tags here
-            (:endgroup)
-            ("@errand" . ?E)
-            ("@home" . ?H)
-            ("@work" . ?W)
-            ("agenda" . ?a)
-            ("planning" . ?p)
-            ("publish" . ?P)
-            ("batch" . ?b)
-            ("note" . ?n)
-            ("idea" . ?i)))
+        (setq org-tag-alist
+              '((:startgroup)
+                                              ; Put mutually exclusive tags here
+                (:endgroup)
+                ("@errand" . ?E)
+                ("@home" . ?H)
+                ("@work" . ?W)
+                ("agenda" . ?a)
+                ("planning" . ?p)
+                ("publish" . ?P)
+                ("batch" . ?b)
+                ("note" . ?n)
+                ("idea" . ?i)))
 
-                                          ; Configure custom agenda views
-    (setq org-agenda-custom-commands
-          '(("d" "Dashboard"
-             ((agenda "" ((org-deadline-warning-days 7)))
-              (todo "NEXT"
-                    ((org-agenda-overriding-header "Next Tasks")))
-              (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+                                              ; Configure custom agenda views
+        (setq org-agenda-custom-commands
+              '(("d" "Dashboard"
+                 ((agenda "" ((org-deadline-warning-days 7)))
+                  (todo "NEXT"
+                        ((org-agenda-overriding-header "Next Tasks")))
+                  (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
 
-            ("n" "Next Tasks"
-             ((todo "NEXT"
-                    ((org-agenda-overriding-header "Next Tasks")))))
+                ("n" "Next Tasks"
+                 ((todo "NEXT"
+                        ((org-agenda-overriding-header "Next Tasks")))))
 
-            ("W" "Work Tasks" tags-todo "+work-email")
+                ("W" "Work Tasks" tags-todo "+work-email")
 
-                                          ; Low-effort next actions
-            ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-             ((org-agenda-overriding-header "Low Effort Tasks")
-              (org-agenda-max-todos 20)
-              (org-agenda-files org-agenda-files)))
+                                              ; Low-effort next actions
+                ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+                 ((org-agenda-overriding-header "Low Effort Tasks")
+                  (org-agenda-max-todos 20)
+                  (org-agenda-files org-agenda-files)))
 
-            ("w" "Workflow Status"
-             ((todo "WAIT"
-                    ((org-agenda-overriding-header "Waiting on External")
-                     (org-agenda-files org-agenda-files)))
-              (todo "REVIEW"
-                    ((org-agenda-overriding-header "In Review")
-                     (org-agenda-files org-agenda-files)))
-              (todo "PLAN"
-                    ((org-agenda-overriding-header "In Planning")
-                     (org-agenda-todo-list-sublevels nil)
-                     (org-agenda-files org-agenda-files)))
-              (todo "BACKLOG"
-                    ((org-agenda-overriding-header "Project Backlog")
-                     (org-agenda-todo-list-sublevels nil)
-                     (org-agenda-files org-agenda-files)))
-              (todo "READY"
-                    ((org-agenda-overriding-header "Ready for Work")
-                     (org-agenda-files org-agenda-files)))
-              (todo "ACTIVE"
-                    ((org-agenda-overriding-header "Active Projects")
-                     (org-agenda-files org-agenda-files)))
-              (todo "COMPLETED"
-                    ((org-agenda-overriding-header "Completed Projects")
-                     (org-agenda-files org-agenda-files)))
-              (todo "CANC"
-                    ((org-agenda-overriding-header "Cancelled Projects")
-                     (org-agenda-files org-agenda-files)))))))
+                ("w" "Workflow Status"
+                 ((todo "WAIT"
+                        ((org-agenda-overriding-header "Waiting on External")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "REVIEW"
+                        ((org-agenda-overriding-header "In Review")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "PLAN"
+                        ((org-agenda-overriding-header "In Planning")
+                         (org-agenda-todo-list-sublevels nil)
+                         (org-agenda-files org-agenda-files)))
+                  (todo "BACKLOG"
+                        ((org-agenda-overriding-header "Project Backlog")
+                         (org-agenda-todo-list-sublevels nil)
+                         (org-agenda-files org-agenda-files)))
+                  (todo "READY"
+                        ((org-agenda-overriding-header "Ready for Work")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "ACTIVE"
+                        ((org-agenda-overriding-header "Active Projects")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "COMPLETED"
+                        ((org-agenda-overriding-header "Completed Projects")
+                         (org-agenda-files org-agenda-files)))
+                  (todo "CANC"
+                        ((org-agenda-overriding-header "Cancelled Projects")
+                         (org-agenda-files org-agenda-files)))))))
 
-    (setq org-capture-templates
-          `(("m" "Email Capture")
-            ("mr" "Research Tasks" entry
-             (file+olp research-tasks-mail "Captured Email")
-             "* TODO Check this email %a"
-             :immediate-finish t)
-            ("ml" "Lunch Tasks" entry
-             (file+olp lunch-tasks-mail "Captured Email")
-             "* TODO Check this email %a"
-             :immediate-finish t)
-            ("ms" "SCC Project Tasks" entry
-             (file+olp scc-tasks-mail "Captured Email")
-             "* TODO Check this email %a"
-             :immediate-finish t)
-            ("mc" "School Tasks" entry
-             (file+olp school-tasks-mail "Captured Email")
-             "* TODO Check this email %a"
-             :immediate-finish t)
-            ("me" "Seminar Tasks" entry
-             (file+olp seminar-tasks-mail "Captured Email")
-             "* TODO Check this email %a"
-             :immediate-finish t)))
+        (setq org-capture-templates
+              `(("m" "Email Capture")
+                ("mr" "Research Tasks" entry
+                 (file+olp research-tasks-mail "EMAIL")
+                 "** TODO Check this email %a"
+                 :immediate-finish t)
+                ("ml" "Lunch Tasks" entry
+                 (file+olp lunch-tasks-mail "EMAIL")
+                 "** TODO Check this email %a"
+                 :immediate-finish t)
+                ("ms" "SCC Project Tasks" entry
+                 (file+olp scc-tasks-mail "EMAIL")
+                 "** TODO Check this email %a"
+                 :immediate-finish t)
+                ("mc" "School Tasks" entry
+                 (file+olp school-tasks-mail "EMAIL")
+                 "** TODO Check this email %a"
+                 :immediate-finish t)
+                ("me" "Seminar Tasks" entry
+                 (file+olp seminar-tasks-mail "EMAIL")
+                 "** TODO Check this email %a"
+                 :immediate-finish t)))
 
-    (define-key global-map (kbd "C-c s")
-      (lambda () (interactive) (mark-whole-buffer) (org-sort-entries nil ?o)))
+        (define-key global-map (kbd "C-c s")
+          (lambda () (interactive) (mark-whole-buffer) (org-sort-entries nil ?o)))
 
-    (define-key global-map (kbd "C-c c")
-      (lambda () (interactive) (org-todo "COMPLETED")))
+        (define-key global-map (kbd "C-c c")
+          (lambda () (interactive) (org-todo "COMPLETED")))
 
-    (define-key global-map (kbd "C-c t")
-      (lambda () (interactive) (org-todo "TODO")))
+        (define-key global-map (kbd "C-c t")
+          (lambda () (interactive) (org-todo "TODO")))
 
-    (defun auto/SortTODO ()
-      (when (and buffer-file-name (string-match ".*/todolist.org" (buffer-file-name)))
-        (setq unread-command-events (listify-key-sequence "\C-c s"))))
+        (defun auto/SortTODO ()
+          (when (and buffer-file-name (string-match ".*/todolist.org" (buffer-file-name)))
+            (setq unread-command-events (listify-key-sequence "\C-c s"))))
 
-    (efs/org-font-setup))
+        (efs/org-font-setup))
 
-#+end_src
+      #+end_src
 
 Update org-latex-classes
 
@@ -909,7 +916,11 @@ We use [[https://github.com/joostkremers/visual-fill-column][visual-fill-column]
     (visual-fill-column-mode 1))
 
   (use-package visual-fill-column
-    :hook (org-mode . efs/org-mode-visual-fill))
+    :hook ((org-mode . efs/org-mode-visual-fill)
+           (markdown-mode . efs/org-mode-visual-fill)
+           (Tex-mode . efs/org-mode-visual-fill)
+           (LaTeX-mode . efs/org-mode-visual-fill)
+           (mu4e-main-mode . efs/org-mode-visual-fill)))
 
 #+end_src
 
@@ -959,6 +970,8 @@ This snippet adds a hook to =org-mode= buffers so that =efs/org-babel-tangle-con
     :config
     (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
     (setq yas-key-syntaxes '(yas-longest-key-from-whitespace "w_.()" "w_." "w_" "w"))
+    (define-key yas-minor-mode-map (kbd "C-g") 'evil-normal-state)
+    (define-key yas-keymap (kbd "C-g") 'evil-normal-state)
     (yas-global-mode 1))
 
   (use-package yasnippet-snippets)
@@ -1124,6 +1137,9 @@ This will install the [[https://github.com/theia-ide/typescript-language-server]
   (add-hook 'TeX-mode-hook 'lsp)
   (add-hook 'LaTeX-mode-hook 'lsp)
 
+  (add-hook 'TeX-mode-hook 'turn-on-reftex)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+
   (add-hook 'TeX-mode-hook #'auto-fill-mode)
   (add-hook 'LaTeX-mode-hook #'auto-fill-mode)
   (setq-default fill-column 80)
@@ -1169,7 +1185,8 @@ This will install the [[https://github.com/theia-ide/typescript-language-server]
     :config
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
-    (setq-default TeX-master nil))
+    (setq-default TeX-master nil)
+    (setq reftex-ref-macro-prompt nil))
 
 #+end_src
 
@@ -1218,7 +1235,11 @@ You can use the pyvenv package to use =virtualenv= environments in Emacs.  The =
 
 #+begin_src emacs-lisp
 
+  (defvar maplev-package "/home/jose/maple/toolbox/maplev/maplev-3.0.4.tar")
+  (if (file-exists-p maplev-package) (package-install-file maplev-package))
+
   (add-to-list 'auto-mode-alist '("\\.mpl\\'" . maplev-mode))
+  (add-to-list 'auto-mode-alist '("\\.mm\\'" . maplev-mode))
 
 #+end_src
 
@@ -1495,14 +1516,6 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 
 *** Configuration
 
-Privacy concerns in macos requires to explicitly provide emacs, /usr/bin/ruby permission to the Full Disk in order to display files using Dired. Additionaly, the following utilities are required:
-
-#+begin_src
-
-brew install coreutils
-
-#+end_src
-
 #+begin_src emacs-lisp
 
   (use-package dired
@@ -1513,9 +1526,7 @@ brew install coreutils
     :config
     (evil-collection-define-key 'normal 'dired-mode-map
       "h" 'dired-single-up-directory
-      "l" 'dired-single-buffer)
-    (setq insert-directory-program "gls" dired-use-ls-dired t)
-    (setq dired-listing-switches "-al --group-directories-first"))
+      "l" 'dired-single-buffer))
 
   (put 'dired-find-alternate-file 'disabled nil)
 
