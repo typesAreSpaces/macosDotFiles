@@ -246,7 +246,10 @@
                                        (shell-command-to-string
                                         "ps aux | grep 'mbsync -a' | wc -l | xargs")
                                        "3\n")
-                                      "Running mbsync" ""))
+                                      " Running mbsync " " "))
+                                 "%e" (:eval
+                                       (when (display-graphic-p) (shell-command-to-string
+                                        "~/.local/scripts/check_email.sh")))
                                  (:eval (doom-modeline-format--main))))
 
 (use-package which-key
