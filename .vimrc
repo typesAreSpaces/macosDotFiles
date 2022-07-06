@@ -5,6 +5,8 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+inoremap <C-G> <ESC>
+
 nnoremap <silent> <leader>u :exe "resize -5" <CR>
 nnoremap <silent> <leader>i :exe "resize +5" <CR>
 nnoremap <silent> <leader>y :exe "vertical resize +5"<CR>
@@ -29,3 +31,5 @@ set noswapfile
 set nobackup
 set undofile
 set incsearch 
+
+set shell=zsh\ -i
