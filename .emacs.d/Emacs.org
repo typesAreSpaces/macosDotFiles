@@ -1769,7 +1769,7 @@ AuthMechs Login
 PassCmd +"pass school_email"
 Port 993
 SSLType IMAPS
-CertificateFile /etc/ssl/certs/ca-certificates.crt
+CertificateFile /usr/local/etc/openssl@3/cert.pem
 
 IMAPStore unm-remote
 Account unm
@@ -1794,7 +1794,7 @@ AuthMechs Login
 PassCmd +"pass school_work_email"
 Port 993
 SSLType IMAPS
-CertificateFile /etc/ssl/certs/ca-certificates.crt
+CertificateFile /usr/local/etc/openssl@3/cert.pem
 
 IMAPStore cs-unm-remote
 Account cs-unm
