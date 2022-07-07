@@ -27,7 +27,7 @@ export SEMINAR="$PHD_DOCUMENTS/Seminars/BeihangUniversity-Fall2021"
 export SEMINAR_REPORTS="$SEMINAR/Reports"
 export CURRENT_REPORT='5_cabral_dimension_two'
 export MATHEMATICA_PKG_DIR="$PHD_SOFTWARE_DIR/Mathematica/Packages"
-export LATEX_MACROS_DIR="$HOME/texmf/tex/latex/local"
+export LATEX_MACROS_DIR="$HOME/Library/texmf/tex/latex"
 # Important to use ~ instead of $HOME. This has something
 # to do with how sed works on other files using WALLPAPERS_DIR
 export WALLPAPERS_DIR="~/Pictures/Wallpapers"
