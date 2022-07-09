@@ -105,7 +105,6 @@
 (set-fringe-mode 10)               ; Give some breathing room
 
 (menu-bar-mode -1)                 ; Disable the menu bar
-(desktop-save-mode 1)              ; Store sessions
 (winner-mode 1)                    ; Enable winner mode
 (setq winner-dont-bind-my-keys t)
 
@@ -255,7 +254,7 @@
                                       " Running mbsync " " "))
                                  "%e" (:eval
                                        (when (display-graphic-p) (shell-command-to-string
-                                        "~/.local/scripts/check_email.sh")))
+                                                                  "~/.local/scripts/check_email.sh")))
                                  (:eval (doom-modeline-format--main))))
 
 (use-package which-key
@@ -561,7 +560,7 @@
   (setq org-habit-graph-column 60)
 
   (setq org-todo-keywords
-        '((sequence "GOAL(g)" "|")
+        '((sequence "GOAL(g)" "REMINDER(r!)" "|")
           (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
           (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")
           (sequence "EMAIL(e)" "|")))
@@ -767,6 +766,8 @@
   (lsp-headerline-breadcrumb-mode))
 
 (use-package lsp-mode
+  :bind (:map lsp-mode-map
+              ("C-l w b" . lsp-latex-build))
   :commands (lsp lsp-deferred)
   :hook (lsp-mode . efs/lsp-mode-setup)
   :init
@@ -782,8 +783,8 @@
 (use-package treemacs
   :bind
   (:map global-map
-        ([f8] . treemacs)
-        ([f7] . treemacs-select-window))
+        ([f4] . treemacs)
+        ([f5] . treemacs-select-window))
   :config
   (setq treemacs-is-never-other-window t))
 
@@ -823,7 +824,7 @@
                                :files ("langs/*.el" "langs/queries"))
   :after tree-sitter)
 
-; TODO: fix bindings and check the appropriate text objects (i.e. block.outer doesnt work)
+                                        ; TODO: fix bindings and check the appropriate text objects (i.e. block.outer doesnt work)
 (use-package evil-textobj-tree-sitter
   :config
   ;; Goto start of next function
