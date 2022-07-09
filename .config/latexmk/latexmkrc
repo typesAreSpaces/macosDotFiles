@@ -1,1 +1,1 @@
-$pdf_previewer = "zathura"
+$pdf_previewer = "/usr/local/Cellar/zathura/HEAD-3a6fea5/bin/zathura"
