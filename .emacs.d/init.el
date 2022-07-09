@@ -540,7 +540,7 @@
                         (directory . emacs)
                         ("\\.mm\\'" . default)
                         ("\\.x?html?\\'" . default)
-                        ("\\.pdf\\'" . "zathura %s")))
+                        ("\\.pdf\\'" . "/usr/local/Cellar/zathura/HEAD-3a6fea5/bin/zathura %s")))
 
 
   (setq org-ellipsis " ▾")
