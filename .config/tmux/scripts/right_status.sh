@@ -4,9 +4,9 @@ function check_email() {
   email="$(cat ~/.unread_email | xargs)"
   if [ -z "$email" ]
   then
-    printf "%s" "#[fg=brightblue]  X"
+    printf "%s" "#[fg=brightwhite]  X"
   else
-    printf "%s" "#[fg=brightblue] ${email}"
+    printf "%s" "#[fg=brightwhite] ${email}"
   fi
 }
 
@@ -15,7 +15,7 @@ function _date() {
 }
 
 function _time() {
-  printf "%s" "#[fg=brightblue]  $(date +'%H:%M:%S %Z') #[fg=brightwhite, bg=#1F2335]"
+  printf "%s" "#[fg=brightwhite]  $(date +'%H:%M:%S %Z') #[fg=brightwhite, bg=#1F2335]"
 }
 
 function main() {
