@@ -201,6 +201,9 @@ This section configures basic UI settings that remove unneeded elements to make 
                   eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+  (add-to-list 'auto-mode-alist '("\\.dat\\'" . text-mode))
+  (add-to-list 'auto-mode-alist '("\\.dat-s\\'" . text-mode))
+
 #+end_src
 
 ** Dashboard Configuration
@@ -235,7 +238,7 @@ I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://f
 
 #+end_src
 
-* Keybinding Configuration
+** Keybinding Configuration
 
 This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil-mode]] for a Vi-like modal editing experience.  [[https://github.com/noctuid/general.el][general.el]] is used for easy keybinding configuration that integrates well with which-key.  [[https://github.com/emacs-evil/evil-collection][evil-collection]] is used to automatically configure various Emacs modes with Vi-like keybindings for evil-mode.
 
@@ -245,6 +248,7 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (global-set-key (kbd "C-i") 'evil-jump-forward)
   (global-set-key (kbd "C-o") 'evil-jump-backward)
+  (global-set-key [(control x) (k)] 'kill-buffer)
 
   (use-package general
     :after evil
@@ -258,6 +262,8 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
       "e" '(:ignore t :which-key "(e)dit buffer")
       "ec"  '(evilnc-comment-or-uncomment-lines :which-key "(c)omment line")
       "ei"  '((lambda () (interactive) (indent-region (point-min) (point-max))) :which-key "(i)ndent buffer")
+      "ey" '(simpleclip-copy :which-key "clipboard (y)ank")
+      "ep" '(simpleclip-paste :which-key "clipboard (p)aste")
       "f" '(:ignore t :which-key "edit (f)iles")
       "fa" '((lambda () (interactive) (find-file (expand-file-name (concat phd-thesis-org-files-dir "/main.org")))) :which-key "(a)genda")
       "fe" '((lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/Emacs.org"))) :which-key "(e)macs source")
@@ -650,9 +656,9 @@ This is an example of using [[https://github.com/abo-abo/hydra][Hydra]] to desig
 
   (defhydra hydra-text-scale (:timeout 4)
     "scale text"
-    ("j" text-scale-increase "in")
-    ("k" text-scale-decrease "out")
-    ("f" nil "finished" :exit t))
+    ("k" text-scale-increase "in")
+    ("j" text-scale-decrease "out")
+    ("q" nil "finished" :exit t))
 
   (efs/leader-keys
     "ts" '(hydra-text-scale/body :which-key "scale text"))
@@ -731,11 +737,12 @@ This section contains the basic configuration for =org-mode= plus the configurat
     :commands (org-capture org-agenda)
     :hook (org-mode . efs/org-mode-setup)
     :config
-    (setq org-file-apps '((auto-mode . emacs)
-                          (directory . emacs)
-                          ("\\.mm\\'" . default)
-                          ("\\.x?html?\\'" . default)
-                          ("\\.pdf\\'" . "zathura %s")))
+    (setq org-file-apps
+          '((auto-mode . emacs)
+            (directory . emacs)
+            ("\\.mm\\'" . default)
+            ("\\.x?html?\\'" . default)
+            ("\\.pdf\\'" . "zathura %s")))
 
 
     (setq org-ellipsis " ▾")
@@ -941,7 +948,7 @@ We use [[https://github.com/joostkremers/visual-fill-column][visual-fill-column]
   (use-package visual-fill-column
     :hook ((org-mode . efs/org-mode-visual-fill)
            (markdown-mode . efs/org-mode-visual-fill)
-           (Tex-mode . efs/org-mode-visual-fill)
+           (TeX-mode . efs/org-mode-visual-fill)
            (LaTeX-mode . efs/org-mode-visual-fill)
            (mu4e-main-mode . efs/org-mode-visual-fill)))
 
@@ -1059,6 +1066,42 @@ The =which-key= integration adds helpful descriptions of the various keys so you
 
 #+end_src
 
+**** tree-sitter
+
+#+begin_src emacs-lisp 
+
+                                          ; :hook (
+                                          ; (org-mode TeX-mode LaTeX-mode typescript-mode
+                                          ; maplev-mode c-mode c++-mode python-mode rustic-mode)
+                                          ;. tree-sitter-hl-mode))
+
+  (use-package tree-sitter
+    :straight (tree-sitter :type git
+                           :host github
+                           :repo "ubolonton/emacs-tree-sitter"
+                           :files ("lisp/*.el"))
+    :hook ((latex-mode python-mode rustic-mode) . tree-sitter-hl-mode)
+    :config
+    (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(TeX-mode . latex))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(LaTeX-mode . latex))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(latex-mode . latex))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(bibtex-mode . bibtex))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(org-mode . org))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(c-mode . c))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(cpp-mode . cpp))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(python-mode . python))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-mode . typescript)))
+
+  (use-package tree-sitter-langs
+    :straight (tree-sitter-langs :type git
+                                 :host github
+                                 :repo "ubolonton/emacs-tree-sitter"
+                                 :files ("langs/*.el" "langs/queries"))
+    :after tree-sitter)
+
+#+end_src
+
 **** treemacs
 
 #+begin_src emacs-lisp 
@@ -1079,77 +1122,6 @@ The =which-key= integration adds helpful descriptions of the various keys so you
 
                                           ;(use-package treemacs-evil
                                           ;  :after treemacs evil)
-
-#+end_src
-
-**** tree-sitter
-
-#+begin_src emacs-lisp 
-
-  ;; (use-package tree-sitter
-  ;;   :straight (tree-sitter :type git
-  ;;                          :host github
-  ;;                          :repo "ubolonton/emacs-tree-sitter"
-  ;;                          :files ("lisp/*.el"))
-  ;;   :config (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust))
-  ;;   :hook ((org-mode TeX-mode LaTeX-mode typescript-mode maplev-mode c-mode c++-mode python-mode rustic-mode) . tree-sitter-hl-mode))
-
-  (use-package tree-sitter
-    :straight (tree-sitter :type git
-                           :host github
-                           :repo "ubolonton/emacs-tree-sitter"
-                           :files ("lisp/*.el"))
-    :config
-    (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(TeX-mode . latex))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(LaTeX-mode . latex))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(latex-mode . latex))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(bibtex-mode . bibtex))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(org-mode . org))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(c-mode . c))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(cpp-mode . cpp))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(python-mode . python))
-    (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-mode . typescript))
-    :hook ((latex-mode python-mode rustic-mode) . tree-sitter-hl-mode))
-
-  (use-package tree-sitter-langs
-    :straight (tree-sitter-langs :type git
-                                 :host github
-                                 :repo "ubolonton/emacs-tree-sitter"
-                                 :files ("langs/*.el" "langs/queries"))
-    :after tree-sitter)
-
-                                          ; TODO: fix bindings and check the appropriate text objects (i.e. block.outer doesnt work)
-  (use-package evil-textobj-tree-sitter
-    :config
-    ;; Goto start of next function
-    (define-key evil-normal-state-map (kbd "]f")
-      (lambda ()
-        (interactive)
-        (evil-textobj-tree-sitter-goto-textobj "block.outer")))
-    ;; Goto start of previous function
-    (define-key evil-normal-state-map (kbd "[f")
-      (lambda ()
-        (interactive)
-        (evil-textobj-tree-sitter-goto-textobj "block.outer" t)))
-    ;; Goto end of next function
-    (define-key evil-normal-state-map (kbd "]F")
-      (lambda ()
-        (interactive)
-        (evil-textobj-tree-sitter-goto-textobj "block.outer" nil t)))
-    ;; Goto end of previous function
-    (define-key evil-normal-state-map (kbd "[F")
-      (lambda ()
-        (interactive)
-        (evil-textobj-tree-sitter-goto-textobj "block.outer" t t)))
-
-    ;; bind `function.outer`(entire function block) to `f` for use in things like `vaf`, `yaf`
-    (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "block.outer"))
-    ;; bind `function.inner`(function block without name and args) to `f` for use in things like `vif`, `yif`
-    (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "block.inner"))
-
-    ;; You can also bind multiple items and we will match the first one we can find
-    (define-key evil-outer-text-objects-map "a" (evil-textobj-tree-sitter-get-textobj ("conditional.outer" "loop.outer")))) 
 
 #+end_src
 
@@ -1266,6 +1238,7 @@ This will install the [[https://github.com/theia-ide/typescript-language-server]
 
   (use-package lsp-latex
     :bind (:map lsp-mode-map
+                ("C-l w r" . lsp-workspace-restart)
                 ("C-l w b" . lsp-latex-build))
     :config
     (setq lsp-latex-build-executable "latexmk")
@@ -1305,7 +1278,10 @@ This will install the [[https://github.com/theia-ide/typescript-language-server]
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
     (setq-default TeX-master nil)
-    (setq reftex-ref-macro-prompt nil))
+    (setq reftex-ref-macro-prompt nil)
+    (setq font-latex-fontify-script nil))
+
+  (add-to-list 'auto-mode-alist '("\\.tex\\'" . LaTeX-mode))
 
 #+end_src
 
@@ -1330,12 +1306,17 @@ There are a number of other language servers for Python so if you find that =pyl
     :hook (python-mode . lsp-deferred)
     :custom
                                           ; NOTE: Set these if Python 3 is called "python3" on your system!
-                                          ; (python-shell-interpreter "python3")
-                                          ; (dap-python-executable "python3")
+    (python-shell-interpreter "python3")
+    (dap-python-executable "python3")
     (dap-python-debugger 'debugpy)
     :config
-    (require 'dap-python))
-
+    (require 'dap-python)
+    (setq python-indent-offset 2)
+    (setq python-indent 2)
+    (add-hook 'python-mode-hook
+              (function (lambda ()
+                          (setq indent-tabs-mode nil
+                                tab-width 2)))))
 
 #+end_src
 

@@ -144,6 +144,9 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(add-to-list 'auto-mode-alist '("\\.dat\\'" . text-mode))
+(add-to-list 'auto-mode-alist '("\\.dat-s\\'" . text-mode))
+
 (use-package dashboard
   :ensure t
   :diminish dashboard-mode
@@ -166,6 +169,7 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-i") 'evil-jump-forward)
 (global-set-key (kbd "C-o") 'evil-jump-backward)
+(global-set-key [(control x) (k)] 'kill-buffer)
 
 (use-package general
   :after evil
@@ -179,6 +183,8 @@
     "e" '(:ignore t :which-key "(e)dit buffer")
     "ec"  '(evilnc-comment-or-uncomment-lines :which-key "(c)omment line")
     "ei"  '((lambda () (interactive) (indent-region (point-min) (point-max))) :which-key "(i)ndent buffer")
+    "ey" '(simpleclip-copy :which-key "clipboard (y)ank")
+    "ep" '(simpleclip-paste :which-key "clipboard (p)aste")
     "f" '(:ignore t :which-key "edit (f)iles")
     "fa" '((lambda () (interactive) (find-file (expand-file-name (concat phd-thesis-org-files-dir "/main.org")))) :which-key "(a)genda")
     "fe" '((lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/Emacs.org"))) :which-key "(e)macs source")
@@ -481,9 +487,9 @@
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "finished" :exit t))
+  ("k" text-scale-increase "in")
+  ("j" text-scale-decrease "out")
+  ("q" nil "finished" :exit t))
 
 (efs/leader-keys
   "ts" '(hydra-text-scale/body :which-key "scale text"))
@@ -536,11 +542,12 @@
   :commands (org-capture org-agenda)
   :hook (org-mode . efs/org-mode-setup)
   :config
-  (setq org-file-apps '((auto-mode . emacs)
-                        (directory . emacs)
-                        ("\\.mm\\'" . default)
-                        ("\\.x?html?\\'" . default)
-                        ("\\.pdf\\'" . "zathura %s")))
+  (setq org-file-apps
+        '((auto-mode . emacs)
+          (directory . emacs)
+          ("\\.mm\\'" . default)
+          ("\\.x?html?\\'" . default)
+          ("\\.pdf\\'" . "zathura %s")))
 
 
   (setq org-ellipsis " ▾")
@@ -718,7 +725,7 @@
 (use-package visual-fill-column
   :hook ((org-mode . efs/org-mode-visual-fill)
          (markdown-mode . efs/org-mode-visual-fill)
-         (Tex-mode . efs/org-mode-visual-fill)
+         (TeX-mode . efs/org-mode-visual-fill)
          (LaTeX-mode . efs/org-mode-visual-fill)
          (mu4e-main-mode . efs/org-mode-visual-fill)))
 
@@ -778,30 +785,17 @@
   :custom
   (lsp-ui-doc-position 'bottom))
 
-(use-package treemacs
-  :bind
-  (:map global-map
-        ([f4] . treemacs)
-        ([f5] . treemacs-select-window))
-  :config
-  (setq treemacs-is-never-other-window t))
-
-;(use-package treemacs-evil
-;  :after treemacs evil)
-
-;; (use-package tree-sitter
-;;   :straight (tree-sitter :type git
-;;                          :host github
-;;                          :repo "ubolonton/emacs-tree-sitter"
-;;                          :files ("lisp/*.el"))
-;;   :config (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust))
-;;   :hook ((org-mode TeX-mode LaTeX-mode typescript-mode maplev-mode c-mode c++-mode python-mode rustic-mode) . tree-sitter-hl-mode))
+; :hook (
+                                        ; (org-mode TeX-mode LaTeX-mode typescript-mode
+                                        ; maplev-mode c-mode c++-mode python-mode rustic-mode)
+                                        ;. tree-sitter-hl-mode))
 
 (use-package tree-sitter
   :straight (tree-sitter :type git
                          :host github
                          :repo "ubolonton/emacs-tree-sitter"
                          :files ("lisp/*.el"))
+  :hook ((latex-mode python-mode rustic-mode) . tree-sitter-hl-mode)
   :config
   (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust))
   (add-to-list 'tree-sitter-major-mode-language-alist '(TeX-mode . latex))
@@ -812,8 +806,7 @@
   (add-to-list 'tree-sitter-major-mode-language-alist '(c-mode . c))
   (add-to-list 'tree-sitter-major-mode-language-alist '(cpp-mode . cpp))
   (add-to-list 'tree-sitter-major-mode-language-alist '(python-mode . python))
-  (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-mode . typescript))
-  :hook ((latex-mode python-mode rustic-mode) . tree-sitter-hl-mode))
+  (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-mode . typescript)))
 
 (use-package tree-sitter-langs
   :straight (tree-sitter-langs :type git
@@ -822,37 +815,16 @@
                                :files ("langs/*.el" "langs/queries"))
   :after tree-sitter)
 
-                                        ; TODO: fix bindings and check the appropriate text objects (i.e. block.outer doesnt work)
-(use-package evil-textobj-tree-sitter
+(use-package treemacs
+  :bind
+  (:map global-map
+        ([f4] . treemacs)
+        ([f5] . treemacs-select-window))
   :config
-  ;; Goto start of next function
-  (define-key evil-normal-state-map (kbd "]f")
-    (lambda ()
-      (interactive)
-      (evil-textobj-tree-sitter-goto-textobj "block.outer")))
-  ;; Goto start of previous function
-  (define-key evil-normal-state-map (kbd "[f")
-    (lambda ()
-      (interactive)
-      (evil-textobj-tree-sitter-goto-textobj "block.outer" t)))
-  ;; Goto end of next function
-  (define-key evil-normal-state-map (kbd "]F")
-    (lambda ()
-      (interactive)
-      (evil-textobj-tree-sitter-goto-textobj "block.outer" nil t)))
-  ;; Goto end of previous function
-  (define-key evil-normal-state-map (kbd "[F")
-    (lambda ()
-      (interactive)
-      (evil-textobj-tree-sitter-goto-textobj "block.outer" t t)))
+  (setq treemacs-is-never-other-window t))
 
-  ;; bind `function.outer`(entire function block) to `f` for use in things like `vaf`, `yaf`
-  (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "block.outer"))
-  ;; bind `function.inner`(function block without name and args) to `f` for use in things like `vif`, `yif`
-  (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "block.inner"))
-
-  ;; You can also bind multiple items and we will match the first one we can find
-  (define-key evil-outer-text-objects-map "a" (evil-textobj-tree-sitter-get-textobj ("conditional.outer" "loop.outer"))))
+;(use-package treemacs-evil
+;  :after treemacs evil)
 
 (use-package lsp-treemacs
   :after lsp)
@@ -902,6 +874,7 @@
 
 (use-package lsp-latex
   :bind (:map lsp-mode-map
+              ("C-l w r" . lsp-workspace-restart)
               ("C-l w b" . lsp-latex-build))
   :config
   (setq lsp-latex-build-executable "latexmk")
@@ -935,18 +908,27 @@
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq-default TeX-master nil)
-  (setq reftex-ref-macro-prompt nil))
+  (setq reftex-ref-macro-prompt nil)
+  (setq font-latex-fontify-script nil))
+
+(add-to-list 'auto-mode-alist '("\\.tex\\'" . LaTeX-mode))
 
 (use-package python-mode
   :ensure t
   :hook (python-mode . lsp-deferred)
   :custom
                                         ; NOTE: Set these if Python 3 is called "python3" on your system!
-                                        ; (python-shell-interpreter "python3")
-                                        ; (dap-python-executable "python3")
+  (python-shell-interpreter "python3")
+  (dap-python-executable "python3")
   (dap-python-debugger 'debugpy)
   :config
-  (require 'dap-python))
+  (require 'dap-python)
+  (setq python-indent-offset 2)
+  (setq python-indent 2)
+  (add-hook 'python-mode-hook
+            (function (lambda ()
+                        (setq indent-tabs-mode nil
+                              tab-width 2)))))
 
 (use-package pyvenv
   :after python-mode
