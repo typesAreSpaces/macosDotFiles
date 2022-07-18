@@ -941,6 +941,8 @@
 (add-to-list 'auto-mode-alist '("\\.mpl\\'" . maplev-mode))
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . maplev-mode))
 
+(use-package toml-mode)
+
 (use-package company
   :after lsp-mode
   :hook (lsp-mode . company-mode)
@@ -984,6 +986,8 @@
 
 (use-package evil-nerd-commenter
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+
+(use-package rainbow-mode)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
