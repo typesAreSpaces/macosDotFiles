@@ -2,6 +2,7 @@
 # ZSHRC config
 #export TERM=xterm-256color
 
+export GPG_TTY="$TTY"
 export HISTIGNORE='*sudo -S*'
 export ZSH="$HOME/.oh-my-zsh"
 export ZSH_PLUGINS='/usr/local/Cellar'
