@@ -1,3 +1,6 @@
-[submodule "/Users/types/Library/texmf/tex/latex"]
-	path = /Users/types/Library/texmf/tex/latex
-	url = https://github.com/typesAreSpaces/PersonalLatexMacros
+[submodule "Library/texmf/tex/latex"]
+	path = Library/texmf/tex/latex
+	url = git@github.com:typesAreSpaces/PersonalLatexMacros.git
+[submodule ".emacs.d"]
+	path = .emacs.d
+	url = git@github.com:typesAreSpaces/.emacs.d
