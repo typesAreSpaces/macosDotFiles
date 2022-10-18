@@ -10,3 +10,6 @@
 [submodule ".emacs.d"]
 	path = .emacs.d
 	url = git@github.com:typesAreSpaces/.emacs.d.git
+[submodule ".config/vim"]
+	path = .config/vim
+	url = git@github.com:typesAreSpaces/vim.conf
