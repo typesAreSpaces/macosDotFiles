@@ -4,3 +4,6 @@
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = git@github.com:typesAreSpaces/nvim.conf
+[submodule ".config/zsh"]
+	path = .config/zsh
+	url = git@github.com:typesAreSpaces/zsh.config
