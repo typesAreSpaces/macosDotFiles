@@ -7,3 +7,6 @@
 [submodule ".config/zsh"]
 	path = .config/zsh
 	url = git@github.com:typesAreSpaces/zsh.config
+[submodule ".emacs.d"]
+	path = .emacs.d
+	url = git@github.com:typesAreSpaces/.emacs.d.git
