@@ -19,3 +19,6 @@
 [submodule ".emacs.d"]
 	path = .emacs.d
 	url = https://github.com/plexus/chemacs2.git
+[submodule ".config/jose-emacs"]
+	path = .config/jose-emacs
+	url = git@github.com:typesAreSpaces/.emacs.d.git
