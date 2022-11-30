@@ -22,3 +22,9 @@
 [submodule ".config/jose-emacs"]
 	path = .config/jose-emacs
 	url = git@github.com:typesAreSpaces/.emacs.d.git
+[submodule ".config/emacs"]
+	path = .config/emacs
+	url = https://github.com/doomemacs/doomemacs.git
+[submodule ".config/prelude"]
+	path = .config/prelude
+	url = https://github.com/bbatsov/prelude.git
