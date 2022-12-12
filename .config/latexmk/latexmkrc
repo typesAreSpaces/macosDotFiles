@@ -1,1 +1,1 @@
-$pdf_previewer = "open -a Preview"
+$pdf_previewer = "zathura"
