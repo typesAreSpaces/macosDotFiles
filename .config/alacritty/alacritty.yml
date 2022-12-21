@@ -108,3 +108,9 @@ key_bindings:
   - key: Down
     mods: Shift
     action: ScrollLineDown
+  - key: X
+    mods: Alt
+    chars: "\x1bx"
+  - key: P
+    mods: Alt
+    chars: "\x1bp"
