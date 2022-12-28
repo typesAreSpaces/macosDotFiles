@@ -76,7 +76,7 @@
 # A REFERENCE ONLY, WHEN MAKING YOUR OWN CONFIGURATION..          #
 # ############################################################### #
 
-cmd - return : /Applications/iTerm.app/Contents/MacOS/iTerm2
+cmd - return : /opt/homebrew/bin/alacritty
 
 #todo layouts?
 #todo window states
