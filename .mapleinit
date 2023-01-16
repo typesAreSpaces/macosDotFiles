@@ -11,3 +11,5 @@ libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/S
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/BlockMatrix":
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/EnumsAtMostDegree":
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/Rationalize":
+libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/MonogenicQM":
+libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/FixingPointsAlg":
