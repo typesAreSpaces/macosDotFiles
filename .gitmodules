@@ -34,3 +34,15 @@
 [submodule ".config/latexmk"]
 	path = .config/latexmk
 	url = git@github.com:typesAreSpaces/latexmk.conf.git
+[submodule ".emacs.d"]
+	path = .emacs.d
+	url = git@github.com:typesAreSpaces/chemacs2.git
+[submodule ".config/emacs"]
+	path = .config/emacs
+	url = git@github.com:typesAreSpaces/doom.git
+[submodule ".config/spacemacs"]
+	path = .config/spacemacs
+	url = git@github.com:typesAreSpaces/spacemacs.git
+[submodule ".config/prelude"]
+	path = .config/prelude
+	url = git@github.com:typesAreSpaces/prelude.git
