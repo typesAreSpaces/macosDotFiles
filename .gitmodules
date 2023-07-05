@@ -52,3 +52,6 @@
 [submodule "/Users/typesarespaces/.config/NvChad"]
 	path = /Users/typesarespaces/.config/NvChad
 	url = https://github.com/NvChad/NvChad
+[submodule ".config/LazyVim"]
+	path = .config/LazyVim
+	url = git@github.com:typesAreSpaces/starter.git
