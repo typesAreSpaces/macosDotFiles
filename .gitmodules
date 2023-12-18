@@ -61,3 +61,9 @@
 [submodule ".config/wezterm"]
 	path = .config/wezterm
 	url = git@github.com:typesAreSpaces/wezterm.conf
+[submodule ".config/.config/karabiner"]
+	path = .config/.config/karabiner
+	url = git@github.com:typesAreSpaces/karabiner-config
+[submodule ".config/karabiner"]
+	path = .config/karabiner
+	url = git@github.com:typesAreSpaces/karabiner-config
