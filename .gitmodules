@@ -64,3 +64,6 @@
 [submodule ".config/karabiner"]
 	path = .config/karabiner
 	url = git@github.com:typesAreSpaces/karabiner-config
+[submodule ".config/doom"]
+	path = .config/doom
+	url = git@github.com:typesAreSpaces/doom.config
