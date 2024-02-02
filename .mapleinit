@@ -13,5 +13,5 @@ libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/S
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/Rationalize":
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/MonogenicQM":
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/FixingPointsAlg":
-libname := libname, "/Users/typesarespaces/Documents/GithubProjects/CertSatQM":
+libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/CertSatQM":
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/BasicLemma":
