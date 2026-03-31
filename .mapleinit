@@ -17,3 +17,4 @@ libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/S
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/BasicLemma":
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/StrictlyPositiveCert":
 libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/MonogenicCert":
+libname := libname, "/Users/typesarespaces/Documents/GithubProjects/phd-thesis/Software/Maple/Packages/StrictlyPositiveMultivariateCert":
