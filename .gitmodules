@@ -64,6 +64,3 @@
 [submodule ".config/doom"]
 	path = .config/doom
 	url = git@github.com:typesAreSpaces/doom.config
-[submodule ".config/tmux"]
-	path = .config/tmux
-	url = git@github.com:typesAreSpaces/tmux.config
