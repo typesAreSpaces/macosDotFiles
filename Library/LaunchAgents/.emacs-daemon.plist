@@ -8,8 +8,10 @@
   <key>ProgramArguments</key>
   <array>
     <string>/opt/homebrew/bin/emacs</string>
-    <string>--with-profile=jose</string>
-    <string>--daemon</string>
+    <string>--init-directory</string>
+    <string>/Users/typesarespaces/.config/jose-emacs/</string>
+    <string>--daemon=jose</string>
+    <string>&</string>
   </array>
  <key>RunAtLoad</key>
  <true/>
