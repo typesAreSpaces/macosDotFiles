@@ -2,6 +2,7 @@ libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/SPECTRA":
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/RAG":
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/Convex":
+libname := libname, "/Users/typesarespaces/Documents/Projects/dev/RealCertify":
 
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/DorisAlgorithmCompactCase":
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/WeifengTwoGenerators":
@@ -16,7 +17,8 @@ libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/FixingPointsAlg":
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MaplePackages/StrictlyPositiveMultivariateCert":
 
-libname := libname, "/Users/typesarespaces/Documents/Projects/dev/SatQMCert":
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/BasicLemma":
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/StrictlyPositiveCert":
+libname := libname, "/Users/typesarespaces/Documents/Projects/dev/SatQMCert":
 libname := libname, "/Users/typesarespaces/Documents/Projects/dev/MonogenicCert":
+libname := libname, "/Users/typesarespaces/Documents/Projects/dev/WeifengCertificates":
