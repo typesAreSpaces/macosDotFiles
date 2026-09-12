@@ -251,8 +251,6 @@ brew "zoxide"
 brew "zsh-autosuggestions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
-# GNU Emacs text editor
-brew "d12frosted/emacs-plus/emacs-plus@30", link: false
 # Software system for algebraic geometry research
 brew "macaulay2/tap/macaulay2"
 # SSL/TLS cryptography library
