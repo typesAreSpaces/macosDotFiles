@@ -11,6 +11,8 @@ tap "railwaycat/emacsmacport", trusted: true
 tap "rbenv/tap", trusted: true
 tap "romkatv/powerlevel10k", trusted: true
 tap "sanyam-g/switch", "https://github.com/Sanyam-G/homebrew-switch", trusted: true
+# TIFF library and utilities
+brew "libtiff"
 # C/C++ and Java libraries for Unicode and globalization
 brew "icu4c@78"
 # OpenType text shaping engine
@@ -25,6 +27,8 @@ brew "asciinema"
 brew "automake"
 # Gnome disk usage analyzer
 brew "baobab"
+# Google's own build tool
+brew "bazel"
 # Manipulates BibTeX databases
 brew "bib-tool"
 # GNU binary tools for native development
@@ -75,6 +79,8 @@ brew "ffmpeg"
 brew "z3"
 # Next-gen compiler infrastructure
 brew "llvm"
+# Graphics Library
+brew "mesa"
 # Open-source alternative to the OpenGL Utility Toolkit (GLUT) library
 brew "freeglut"
 # Generic library support script
@@ -83,10 +89,6 @@ brew "libtool"
 brew "fzf"
 # GNU compiler collection
 brew "gcc"
-# Glorious Glasgow Haskell Compilation System
-brew "ghc"
-# Installer for the general purpose language Haskell
-brew "ghcup"
 # Git extension for versioning large files
 brew "git-lfs"
 # Blazing fast terminal-ui for git written in rust
@@ -109,8 +111,6 @@ brew "graphviz"
 brew "grc"
 # Integration point for ghcide and haskell-ide-engine. One IDE to rule them all
 brew "haskell-language-server"
-# Cross-platform program for developing Haskell projects
-brew "haskell-stack"
 # Haskell source code suggestions
 brew "hlint"
 # Improved top (interactive process viewer)
@@ -165,6 +165,8 @@ brew "node"
 brew "ollama"
 # Development kit for the Java programming language
 brew "openjdk"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@4"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Computer algebra system designed for fast computations in number theory
@@ -187,6 +189,8 @@ brew "powerlevel10k"
 brew "prover9"
 # Python version management
 brew "pyenv"
+# Static type checker for Python
+brew "pyright"
 # Python library for creating static, animated, and interactive visualizations
 brew "python-matplotlib"
 # Network analysis in Python
@@ -205,6 +209,8 @@ brew "python@3.10"
 brew "qpdf"
 # Cross-platform application and UI framework
 brew "qt@5"
+# Enables access to text-to-speech engines
+brew "qtspeech"
 # File browser
 brew "ranger"
 # Ruby version manager
@@ -214,7 +220,7 @@ brew "ripgrep"
 # Audio time stretcher tool and library
 brew "rubberband"
 # Powerful, clean, object-oriented scripting language
-brew "ruby"
+brew "ruby", link: false
 # Computer algebra system for polynomial computations
 brew "singular"
 # Python 2 and 3 compatibility utilities
@@ -233,6 +239,8 @@ brew "tldr"
 brew "tmux"
 # Upgrade all the things
 brew "topgrade"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
 # Internet file retriever
 brew "wget"
 # Allow GNU Readline to be used with arbitrary programs
@@ -257,10 +265,10 @@ brew "macaulay2/tap/macaulay2"
 brew "rbenv/tap/openssl@1.0"
 # Cryptography and SSL/TLS Toolkit
 brew "rbenv/tap/openssl@1.1"
-# GPU-accelerated terminal emulator
-cask "alacritty"
 # Web browser focusing on privacy
 cask "brave-browser"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
 # GNU Emacs text editor
 cask "emacs-app"
 cask "font-fira-code-nerd-font"
@@ -277,6 +285,8 @@ cask "julia-app"
 cask "karabiner-elements"
 # Free and Open Source Video Editor
 cask "kdenlive"
+# Tool to prevent the system from going into sleep mode
+cask "keepingyouawake"
 # Privacy-first, open-source platform for knowledge sharing and management
 cask "logseq"
 # Full TeX Live distribution with GUI applications
@@ -285,10 +295,6 @@ cask "mactex"
 cask "meld"
 # Peer to peer Bitorrent client
 cask "qbittorrent"
-# Tool to reverse the direction of scrolling
-cask "scroll-reverser"
-# PDF viewer designed for reading research papers and technical books
-cask "sioyek"
 # Open-source code editor
 cask "visual-studio-code"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
