@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>gnu.emacs.daemon</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/emacs</string>
+    <string>--init-directory</string>
+    <string>/Users/typesarespaces/.config/jose-emacs/</string>
+    <string>--fg-daemon=jose</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>MACOSX_DEPLOYMENT_TARGET</key>
+    <string>27.0</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>WorkingDirectory</key>
+  <string>/Users/typesarespaces</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/typesarespaces/Library/Logs/emacs-jose.log</string>
+  <key>ServiceDescription</key>
+  <string>Gnu Emacs Daemon</string>
+</dict>
+</plist>
