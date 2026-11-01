@@ -11,16 +11,18 @@ tap "railwaycat/emacsmacport", trusted: true
 tap "rbenv/tap", trusted: true
 tap "romkatv/powerlevel10k", trusted: true
 tap "sanyam-g/switch", "https://github.com/Sanyam-G/homebrew-switch", trusted: true
-# TIFF library and utilities
-brew "libtiff"
 # C/C++ and Java libraries for Unicode and globalization
 brew "icu4c@78"
+# TIFF library and utilities
+brew "libtiff"
 # OpenType text shaping engine
 brew "harfbuzz"
 # Framework for layout and rendering of i18n text
 brew "pango"
 # Library to render SVG files using Cairo
 brew "librsvg"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@4"
 # Record and share terminal sessions
 brew "asciinema"
 # Tool for generating GNU Standards-compliant Makefiles
@@ -65,6 +67,8 @@ brew "diff-pdf"
 brew "diff-so-fancy"
 # More intuitive version of du in rust
 brew "dust"
+# Incremental parsing library
+brew "tree-sitter"
 # GNU Emacs text editor
 brew "emacs", link: false
 # Spellchecker wrapping library
@@ -163,10 +167,12 @@ brew "nnn"
 brew "node"
 # Create, run, and share large language models (LLMs)
 brew "ollama"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# AI coding agent, built for the terminal
+brew "opencode"
 # Development kit for the Java programming language
 brew "openjdk"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@4"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # Computer algebra system designed for fast computations in number theory
@@ -189,6 +195,8 @@ brew "powerlevel10k"
 brew "prover9"
 # Python version management
 brew "pyenv"
+# Python bindings for the PDF toolkit and renderer MuPDF
+brew "pymupdf"
 # Static type checker for Python
 brew "pyright"
 # Python library for creating static, animated, and interactive visualizations
@@ -215,8 +223,6 @@ brew "qtspeech"
 brew "ranger"
 # Ruby version manager
 brew "rbenv"
-# Search tool like grep and The Silver Searcher
-brew "ripgrep"
 # Audio time stretcher tool and library
 brew "rubberband"
 # Powerful, clean, object-oriented scripting language
@@ -233,14 +239,22 @@ brew "texinfo"
 brew "texlab"
 # Programmatically correct mistyped console commands
 brew "thefuck"
+# Services for Typst
+brew "tinymist"
 # Simplified and community-driven man pages
 brew "tldr"
 # Terminal multiplexer
 brew "tmux"
 # Upgrade all the things
 brew "topgrade"
+# Parser generator tool
+brew "tree-sitter-cli"
+# Markup-based typesetting system
+brew "typst"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Syntax-aware linter for prose
+brew "vale"
 # Internet file retriever
 brew "wget"
 # Allow GNU Readline to be used with arbitrary programs
@@ -267,11 +281,16 @@ brew "rbenv/tap/openssl@1.0"
 brew "rbenv/tap/openssl@1.1"
 # Web browser focusing on privacy
 cask "brave-browser"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# Terminal-based AI coding assistant
+cask "claude-code"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
 # GNU Emacs text editor
 cask "emacs-app"
 cask "font-fira-code-nerd-font"
+cask "font-jetbrains-mono"
 cask "font-juliamono"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
@@ -293,6 +312,8 @@ cask "logseq"
 cask "mactex"
 # Visual diff and merge tool
 cask "meld"
+# AI coding agent desktop client
+cask "opencode-desktop"
 # Peer to peer Bitorrent client
 cask "qbittorrent"
 # Open-source code editor
@@ -323,3 +344,4 @@ cargo "texlab"
 npm "alacritty-theme-switch"
 npm "corepack"
 npm "neovim"
+npm "prettier"
