@@ -279,6 +279,8 @@ brew "macaulay2/tap/macaulay2"
 brew "rbenv/tap/openssl@1.0"
 # Cryptography and SSL/TLS Toolkit
 brew "rbenv/tap/openssl@1.1"
+# Application launcher and productivity software
+cask "alfred"
 # Web browser focusing on privacy
 cask "brave-browser"
 # Anthropic's official Claude AI desktop app
@@ -289,6 +291,8 @@ cask "claude-code"
 cask "codex"
 # GNU Emacs text editor
 cask "emacs-app"
+# Web browser
+cask "firefox"
 cask "font-fira-code-nerd-font"
 cask "font-jetbrains-mono"
 cask "font-juliamono"
@@ -298,6 +302,8 @@ cask "ghostty"
 cask "gimp"
 # Tools to protect your emails and files
 cask "gpg-suite"
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
 # Programming language for technical computing
 cask "julia-app"
 # Keyboard customiser
@@ -312,14 +318,24 @@ cask "logseq"
 cask "mactex"
 # Visual diff and merge tool
 cask "meld"
+# Open-source software for live streaming and screen recording
+cask "obs"
 # AI coding agent desktop client
 cask "opencode-desktop"
 # Peer to peer Bitorrent client
 cask "qbittorrent"
+# Move and resize windows using keyboard shortcuts or snap areas
+cask "rectangle"
+# PDF reader and note-taking application
+cask "skim"
 # Open-source code editor
 cask "visual-studio-code"
+# Multimedia player
+cask "vlc"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
+# Native desktop client for WhatsApp
+cask "whatsapp"
 # Menu bar utility for viewing and switching Spaces
 cask "whichspace"
 # Open-source version of the X.Org X Window System
